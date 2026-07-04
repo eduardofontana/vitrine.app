@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { authErrorMessage } from "@/lib/auth-errors";
 import { safeInternalPath } from "@/lib/security";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,7 +36,7 @@ export default function LoginPage() {
     });
 
     if (signInError) {
-      setError("Email ou senha invalidos.");
+      setError(authErrorMessage(signInError.message));
       setLoading(null);
       return;
     }
@@ -58,7 +59,7 @@ export default function LoginPage() {
     });
 
     if (oauthError) {
-      setError("Nao foi possivel iniciar o login social.");
+      setError(authErrorMessage(oauthError.message));
       setLoading(null);
     }
   }

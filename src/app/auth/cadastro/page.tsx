@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { authErrorMessage } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,18 +20,29 @@ import {
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setLoading("password");
 
     const form = new FormData(e.currentTarget);
     const supabase = createClient();
-    const { error: signUpError } = await supabase.auth.signUp({
-      email: form.get("email") as string,
-      password: form.get("password") as string,
+    const email = String(form.get("email") || "").trim();
+    const password = String(form.get("password") || "");
+
+    if (password.length < 8) {
+      setError("Use uma senha com pelo menos 8 caracteres.");
+      setLoading(null);
+      return;
+    }
+
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
       options: {
         data: {
           name: form.get("name") as string,
@@ -42,7 +54,13 @@ export default function RegisterPage() {
     });
 
     if (signUpError) {
-      setError(signUpError.message || "Erro ao criar conta.");
+      setError(authErrorMessage(signUpError.message));
+      setLoading(null);
+      return;
+    }
+
+    if (!data.session) {
+      setSuccess("Conta criada. Confirme seu email para ativar o acesso.");
       setLoading(null);
       return;
     }
@@ -53,6 +71,7 @@ export default function RegisterPage() {
 
   async function handleOAuth(provider: "google" | "github") {
     setError("");
+    setSuccess("");
     setLoading(provider);
     const supabase = createClient();
     const redirectTo = `${window.location.origin}/api/auth/callback?next=/dashboard`;
@@ -63,7 +82,7 @@ export default function RegisterPage() {
     });
 
     if (oauthError) {
-      setError("Nao foi possivel iniciar o cadastro social.");
+      setError(authErrorMessage(oauthError.message));
       setLoading(null);
     }
   }
@@ -152,9 +171,10 @@ export default function RegisterPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
-                <Input id="password" name="password" type="password" required placeholder="Minimo 6 caracteres" />
+                <Input id="password" name="password" type="password" required minLength={8} placeholder="Minimo 8 caracteres" />
               </div>
               {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+              {success && <p className="text-sm font-medium text-emerald-700">{success}</p>}
               <Button type="submit" className="w-full gap-2" disabled={!!loading}>
                 {loading === "password" && <Loader2 className="h-4 w-4 animate-spin" />}
                 Criar conta
