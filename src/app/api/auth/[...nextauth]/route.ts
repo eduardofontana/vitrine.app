@@ -29,3 +29,17 @@ export async function GET(request: Request) {
 
   return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
 }
+
+export async function POST(request: Request) {
+  const requestUrl = new URL(request.url);
+  const path = requestUrl.pathname;
+
+  if (!path.endsWith("/logout")) {
+    return NextResponse.json({ error: "Rota nao encontrada" }, { status: 404 });
+  }
+
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+
+  return NextResponse.json({ ok: true });
+}

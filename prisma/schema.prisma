@@ -15,6 +15,7 @@ model Profile {
   username  String   @unique
   avatarUrl String?
   bio       String?
+  skills    Json     @default("[]")
   role      String   @default("USER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

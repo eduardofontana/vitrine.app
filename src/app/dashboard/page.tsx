@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Edit, ExternalLink, Eye, Plus, TrendingUp } from "lucide-react";
+import { Edit, ExternalLink, Eye, Plus, TrendingUp, UserRound } from "lucide-react";
 import { requireProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,12 @@ export default async function DashboardPage() {
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
             Novo projeto
+          </Button>
+        </Link>
+        <Link href="/dashboard/perfil">
+          <Button variant="outline" className="gap-2">
+            <UserRound className="h-4 w-4" />
+            Editar perfil
           </Button>
         </Link>
       </div>

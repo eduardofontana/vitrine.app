@@ -100,6 +100,19 @@ export const leadSchema = z.object({
   offerAmount: z.coerce.number().finite().min(0).max(100000000).optional(),
 });
 
+export const profileSchema = z.object({
+  name: limitedText(2, 80, "Nome"),
+  username: z
+    .string()
+    .trim()
+    .min(3, "Username deve ter no minimo 3 caracteres")
+    .max(32, "Username deve ter no maximo 32 caracteres")
+    .regex(/^[a-z0-9_]+$/, "Use apenas letras minusculas, numeros e _"),
+  bio: z.string().trim().max(800, "Bio deve ter no maximo 800 caracteres").optional(),
+  avatarUrl: optionalUrl,
+  skills: limitedStringArray,
+});
+
 export type LoginInput = {
   email: string;
   password: string;
@@ -141,4 +154,12 @@ export type LeadInput = {
   message: string;
   interestType: "QUERO_COMPRAR" | "QUERO_NEGOCIAR" | "QUERO_SABER_MAIS";
   offerAmount?: number;
+};
+
+export type ProfileInput = {
+  name: string;
+  username: string;
+  bio?: string;
+  avatarUrl?: string;
+  skills: string[];
 };

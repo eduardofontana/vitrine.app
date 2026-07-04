@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProjectCard } from "@/components/shared/project-card";
+import { sanitizeHttpUrl } from "@/lib/security";
+import { parseJsonArray } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -24,12 +26,15 @@ export default async function DevProfilePage({ params }: PageProps) {
 
   if (!profile) notFound();
 
+  const avatarUrl = sanitizeHttpUrl(profile.avatarUrl);
+  const skills = parseJsonArray((profile as { skills?: unknown }).skills);
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-10 rounded-lg border border-slate-200 bg-white p-8">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left">
           <Avatar className="h-24 w-24">
-            {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt={profile.name} />}
+            {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
             <AvatarFallback className="text-2xl">
               {profile.name.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -42,7 +47,19 @@ export default async function DevProfilePage({ params }: PageProps) {
             {profile.bio && (
               <p className="mt-3 max-w-2xl text-slate-600">{profile.bio}</p>
             )}
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+            {skills.length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                {skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
               <Badge variant="secondary" className="gap-1">
                 <Store className="h-3 w-3" />
                 {profile.projects.length} projetos publicados
