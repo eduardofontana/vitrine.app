@@ -1,7 +1,8 @@
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 
 export function getProfileDefaults(user: User) {
   const metadata = user.user_metadata ?? {};
@@ -47,12 +48,22 @@ async function uniqueUsername(base: string, userId: string) {
 }
 
 export async function getCurrentUser() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  if (!getSupabaseEnv().isConfigured) {
+    return null;
+  }
 
-  return user;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return user;
+  } catch (error) {
+    unstable_rethrow(error);
+    console.error("Supabase auth is unavailable:", error);
+    return null;
+  }
 }
 
 export async function getOrCreateProfile(user: User) {
