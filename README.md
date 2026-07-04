@@ -18,14 +18,17 @@ Crie um projeto no Supabase e configure Google/GitHub em Auth > Providers.
 Depois preencha `.env` com os valores reais:
 
 ```env
-DATABASE_URL="postgresql://prisma.PROJECT_REF:YOUR_PASSWORD@REGION.pooler.supabase.com:5432/postgres"
+DATABASE_URL="postgresql://postgres.PROJECT_REF:YOUR_PASSWORD@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.PROJECT_REF:YOUR_PASSWORD@aws-0-us-east-1.pooler.supabase.com:5432/postgres"
 NEXT_PUBLIC_SUPABASE_URL="https://PROJECT_REF.supabase.co"
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="sb_publishable_xxx"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-Para Prisma, use um usuario de banco com permissao no schema `public`, conforme
-a documentacao oficial do Supabase para Prisma.
+No painel do Supabase, use a opcao `ORM > Prisma` em `Connect`:
+
+- `DATABASE_URL`: shared transaction-mode pooler, porta `6543`, com `?pgbouncer=true`.
+- `DIRECT_URL`: shared session-mode pooler, porta `5432`, usada por migrations e `db:push`.
 
 ## Rodando
 
