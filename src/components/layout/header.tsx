@@ -3,8 +3,7 @@ import { Store } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
 import { sanitizeHttpUrl } from "@/lib/security";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogoutButton } from "@/components/layout/logout-button";
+import { AccountMenu } from "@/components/layout/account-menu";
 
 export async function Header() {
   const profile = await getCurrentProfile();
@@ -41,13 +40,7 @@ export async function Header() {
               <Link href="/dashboard/projetos/novo">
                 <Button size="sm">Anunciar projeto</Button>
               </Link>
-              <Link href="/dashboard/perfil" className="flex items-center gap-2">
-                <Avatar className="h-9 w-9">
-                  {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
-                  <AvatarFallback>{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>
-              </Link>
-              <LogoutButton />
+              <AccountMenu profile={profile} avatarUrl={avatarUrl} />
             </div>
           ) : (
             <div className="flex items-center gap-3">
@@ -70,15 +63,7 @@ export async function Header() {
             </Button>
           </Link>
           {profile ? (
-            <>
-              <Link href="/dashboard/perfil">
-                <Avatar className="h-9 w-9">
-                  {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
-                  <AvatarFallback>{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>
-              </Link>
-              <LogoutButton />
-            </>
+            <AccountMenu profile={profile} avatarUrl={avatarUrl} />
           ) : (
             <Link href="/auth/login">
               <Button size="sm">Entrar</Button>
