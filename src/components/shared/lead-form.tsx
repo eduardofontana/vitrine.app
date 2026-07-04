@@ -72,7 +72,7 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-center">
+      <div className="rounded-lg border border-emerald-200 bg-emerald-50/85 p-6 text-center shadow-sm shadow-emerald-950/5">
         <p className="font-semibold text-emerald-950">
           Interesse enviado com sucesso!
         </p>
@@ -84,7 +84,7 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
+    <form onSubmit={handleSubmit} className="premium-panel space-y-4 p-6">
       <div className="space-y-2">
         <Label htmlFor="buyerName">Seu nome</Label>
         <Input id="buyerName" name="buyerName" required placeholder="Seu nome completo" />

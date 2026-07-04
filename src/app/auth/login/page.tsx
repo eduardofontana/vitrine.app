@@ -19,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { MarketplaceMockup, PageShell } from "@/components/shared/visual";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -81,10 +82,11 @@ export default function LoginPage() {
   }
 
   return (
+    <PageShell>
     <div className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-6xl items-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="hidden flex-col justify-center lg:flex">
-          <div className="inline-flex w-fit items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+          <div className="inline-flex w-fit items-center rounded-full border border-emerald-200 bg-white/80 px-3 py-1 text-sm font-medium text-emerald-700 shadow-sm backdrop-blur">
             Marketplace curado para produtos digitais
           </div>
           <h1 className="mt-6 font-heading text-5xl font-bold text-slate-950">
@@ -94,12 +96,15 @@ export default function LoginPage() {
             Acesse seu dashboard, publique projetos e converse com compradores
             qualificados em uma experiencia mais simples e segura.
           </p>
+          <div className="mt-8 max-w-xl">
+            <MarketplaceMockup />
+          </div>
         </div>
 
-        <Card className="shadow-xl shadow-slate-200/70">
+        <Card className="shadow-2xl shadow-slate-900/10">
           <CardHeader className="text-center">
             <Link href="/" className="mx-auto flex items-center justify-center gap-2">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white shadow-lg shadow-slate-950/15">
                 <Store className="h-5 w-5" />
               </span>
               <span className="font-heading text-xl font-bold text-slate-950">
@@ -172,5 +177,6 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+    </PageShell>
   );
 }

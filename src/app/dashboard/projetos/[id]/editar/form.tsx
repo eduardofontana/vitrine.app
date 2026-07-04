@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PageShell } from "@/components/shared/visual";
 import { CATEGORIAS, STATUS_PROJETO } from "@/lib/constants";
 import { parseJsonArray } from "@/lib/utils";
 
@@ -39,7 +40,6 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
     setError("");
 
     const form = new FormData(e.currentTarget);
-
     const techStack = (form.get("techStack") as string)
       .split(",")
       .map((t) => t.trim())
@@ -85,129 +85,84 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Editar projeto</CardTitle>
-          <CardDescription>
-            Atualize as informações do seu projeto
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nome do projeto</Label>
-              <Input
-                id="name"
-                name="name"
-                required
-                defaultValue={project.name}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="shortDescription">Descrição curta</Label>
-              <Input
-                id="shortDescription"
-                name="shortDescription"
-                required
-                defaultValue={project.shortDescription}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Descrição completa</Label>
-              <Textarea
-                id="description"
-                name="description"
-                required
-                defaultValue={project.description}
-                rows={6}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="category">Categoria</Label>
-                <Select name="category" defaultValue={project.category}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIAS.map((cat) => (
-                      <SelectItem key={cat.value} value={cat.value}>
-                        {cat.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+    <PageShell>
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+        <Card className="shadow-2xl shadow-slate-900/10">
+          <CardHeader>
+            <CardTitle className="text-3xl">Editar projeto</CardTitle>
+            <CardDescription>
+              Atualize as informacoes comerciais e envie novamente para curadoria.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nome do projeto</Label>
+                  <Input id="name" name="name" required defaultValue={project.name} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="screenshotUrl">URL da imagem de preview</Label>
+                  <Input id="screenshotUrl" name="screenshotUrl" defaultValue={parseJsonArray(project.screenshots)[0] || ""} placeholder="https://.../screenshot.png" />
+                </div>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
-                <Select name="status" defaultValue={project.status}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {STATUS_PROJETO.map((st) => (
-                      <SelectItem key={st.value} value={st.value}>
-                        {st.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="shortDescription">Descricao curta</Label>
+                <Input id="shortDescription" name="shortDescription" required defaultValue={project.shortDescription} />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="screenshotUrl">URL da imagem de preview</Label>
-              <Input
-                id="screenshotUrl"
-                name="screenshotUrl"
-                defaultValue={parseJsonArray(project.screenshots)[0] || ""}
-                placeholder="https://.../screenshot.png"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="price">Preço (R$)</Label>
-                <Input
-                  id="price"
-                  name="price"
-                  type="number"
-                  step="0.01"
-                  defaultValue={String(project.price)}
-                />
+                <Label htmlFor="description">Descricao completa</Label>
+                <Textarea id="description" name="description" required defaultValue={project.description} rows={6} />
               </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="category">Categoria</Label>
+                  <Select name="category" defaultValue={project.category}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIAS.map((cat) => <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="status">Status</Label>
+                  <Select name="status" defaultValue={project.status}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {STATUS_PROJETO.map((st) => <SelectItem key={st.value} value={st.value}>{st.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="price">Preco (R$)</Label>
+                  <Input id="price" name="price" type="number" step="0.01" defaultValue={String(project.price)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="demoUrl">URL demo</Label>
+                  <Input id="demoUrl" name="demoUrl" defaultValue={project.demoUrl || ""} />
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <Label htmlFor="demoUrl">URL demo</Label>
-                <Input
-                  id="demoUrl"
-                  name="demoUrl"
-                  defaultValue={project.demoUrl || ""}
-                />
+                <Label htmlFor="techStack">Stack (separado por virgula)</Label>
+                <Input id="techStack" name="techStack" defaultValue={parseJsonArray(project.techStack).join(", ")} placeholder="React, Node.js, PostgreSQL" />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="techStack">Stack (separado por vírgula)</Label>
-              <Input
-                id="techStack"
-                name="techStack"
-                defaultValue={parseJsonArray(project.techStack).join(", ")}
-                placeholder="React, Node.js, PostgreSQL"
-              />
-            </div>
+              {error && <p className="text-sm text-red-600">{error}</p>}
 
-            {error && <p className="text-sm text-red-400">{error}</p>}
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Salvando..." : "Salvar alterações"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Salvando..." : "Salvar alteracoes"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </PageShell>
   );
 }

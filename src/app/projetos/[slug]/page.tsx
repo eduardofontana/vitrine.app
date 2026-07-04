@@ -19,6 +19,7 @@ import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
 import { firstImage, formatPrice, parseJsonArray } from "@/lib/utils";
 import { sanitizeHttpUrl } from "@/lib/security";
 import { LeadForm } from "@/components/shared/lead-form";
+import { PageShell, StatTile } from "@/components/shared/visual";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -53,23 +54,26 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const includedAssets = parseJsonArray(project.includedAssets);
 
   return (
+    <PageShell>
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
         <div className="space-y-8">
-          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-            <div className="aspect-video bg-slate-100">
+          <div className="premium-panel overflow-hidden p-2">
+            <div className="aspect-video overflow-hidden rounded-lg bg-slate-100">
               {image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={image} alt={`Preview de ${project.name}`} className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,#d1fae5,transparent_32%),linear-gradient(135deg,#f8fafc,#e2e8f0)]">
-                  <Monitor className="h-16 w-16 text-slate-400" />
+                <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_18%_18%,rgba(16,185,129,0.28),transparent_34%),radial-gradient(circle_at_82%_8%,rgba(59,130,246,0.18),transparent_30%),linear-gradient(135deg,#f8fafc,#e2e8f0)]">
+                  <div className="rounded-xl border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-900/10">
+                    <Monitor className="h-16 w-16 text-slate-500" />
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          <section className="rounded-lg border border-slate-200 bg-white p-6">
+          <section className="premium-panel p-6">
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant="secondary">
                 {CATEGORY_LABELS[project.category] || project.category}
@@ -118,7 +122,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             )}
           </section>
 
-          <section className="rounded-lg border border-slate-200 bg-white p-6">
+          <section className="premium-panel p-6">
             <h2 className="font-heading text-2xl font-bold text-slate-950">
               Sobre o projeto
             </h2>
@@ -127,7 +131,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          <section className="rounded-lg border border-slate-200 bg-white p-6">
+          <section className="premium-panel p-6">
             <h2 className="font-heading text-2xl font-bold text-slate-950">Stack</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {techStack.map((tech) => (
@@ -139,7 +143,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
 
           {includedAssets.length > 0 && (
-            <section className="rounded-lg border border-slate-200 bg-white p-6">
+            <section className="premium-panel p-6">
               <h2 className="font-heading text-2xl font-bold text-slate-950">
                 Incluso na venda
               </h2>
@@ -157,7 +161,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
         <aside className="space-y-5">
           <div className="sticky top-24 space-y-5">
-            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="premium-panel p-6">
               <p className="text-sm font-semibold text-slate-500">Preco pedido</p>
               <p className="mt-1 font-heading text-3xl font-bold text-slate-950">
                 {project.price > 0
@@ -169,7 +173,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            <div className="rounded-lg border border-slate-200 bg-white p-6">
+            <div className="grid gap-3">
+              {project.monthlyRevenue > 0 && (
+                <StatTile label="Receita mensal" value={formatPrice(Number(project.monthlyRevenue))} icon={DollarSign} tone="emerald" />
+              )}
+              {project.usersCount > 0 && (
+                <StatTile label="Usuarios" value={project.usersCount} icon={Users} tone="blue" />
+              )}
+            </div>
+
+            <div className="premium-panel p-6">
               <h3 className="text-sm font-bold uppercase text-slate-400">Metricas</h3>
               <div className="mt-4 space-y-4">
                 {project.monthlyRevenue > 0 && (
@@ -208,7 +221,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="rounded-lg border border-slate-200 bg-white p-6">
+            <div className="premium-panel p-6">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
                   {ownerAvatarUrl && <AvatarImage src={ownerAvatarUrl} alt={project.owner.name} />}
@@ -226,7 +239,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/85 p-5 shadow-sm shadow-emerald-950/5">
               <h3 className="flex items-center gap-2 font-bold text-emerald-950">
                 <ShoppingCart className="h-4 w-4" />
                 Tem interesse?
@@ -238,7 +251,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
             <LeadForm projectId={project.id} projectName={project.name} />
 
-            <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <div className="premium-panel p-4">
               <div className="flex items-start gap-2">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
                 <p className="text-xs leading-5 text-slate-500">
@@ -251,5 +264,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </aside>
       </div>
     </div>
+    </PageShell>
   );
 }

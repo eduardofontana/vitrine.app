@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils";
+import { PageShell, SectionHeader } from "@/components/shared/visual";
 
 interface PageProps {
   searchParams: Promise<{ projectId?: string }>;
@@ -50,20 +51,18 @@ export default async function LeadsPage({ searchParams }: PageProps) {
   };
 
   return (
+    <PageShell>
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      <div>
-        <p className="text-sm font-semibold uppercase text-emerald-700">Leads</p>
-        <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight text-slate-950">
-          Leads recebidos
-        </h1>
-        <p className="mt-2 text-slate-500">
-          Interessados nos seus projetos publicados.
-        </p>
-      </div>
+      <SectionHeader
+        eyebrow="Leads"
+        title="Leads recebidos"
+        description="Interessados nos seus projetos publicados, organizados por projeto e tipo de contato."
+        icon={MessageSquare}
+      />
 
       <div className="mt-8 space-y-4">
         {leads.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-slate-300 bg-white p-12 text-center">
+          <div className="premium-panel border-dashed border-slate-300 p-12 text-center">
             <MessageSquare className="mx-auto h-12 w-12 text-slate-300" />
             <p className="mt-4 text-slate-500">Nenhum lead recebido ainda.</p>
           </div>
@@ -109,5 +108,6 @@ export default async function LeadsPage({ searchParams }: PageProps) {
         )}
       </div>
     </div>
+    </PageShell>
   );
 }

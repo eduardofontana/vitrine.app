@@ -76,9 +76,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   }
 
   return (
-    <Card>
+    <Card className="shadow-2xl shadow-slate-900/10">
       <CardHeader>
-        <CardTitle>Dados publicos</CardTitle>
+        <CardTitle className="text-2xl">Dados publicos</CardTitle>
         <CardDescription>
           Mostre quem voce e e quais tecnologias domina.
         </CardDescription>

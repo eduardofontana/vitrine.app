@@ -4,9 +4,9 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
 import { ProjectCard } from "@/components/shared/project-card";
+import { PageShell, SectionHeader } from "@/components/shared/visual";
 
 interface PageProps {
   searchParams: Promise<{
@@ -50,25 +50,20 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="rounded-lg border border-slate-200 bg-white p-6">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-          <div>
-            <Badge variant="secondary" className="gap-1 bg-blue-50 text-blue-700">
-              <SlidersHorizontal className="h-3.5 w-3.5" />
-              Marketplace
-            </Badge>
-            <h1 className="mt-3 font-heading text-4xl font-bold text-slate-950">
-              Explorar projetos
-            </h1>
-            <p className="mt-2 text-slate-500">
-              {projects.length} projetos aprovados disponiveis para contato.
-            </p>
-          </div>
-          <Link href="/dashboard/projetos/novo">
-            <Button>Anunciar projeto</Button>
-          </Link>
-        </div>
+    <PageShell>
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="premium-panel p-6">
+        <SectionHeader
+          eyebrow="Marketplace"
+          title="Explorar projetos"
+          description={`${projects.length} projetos aprovados disponiveis para contato, com filtros por categoria, status e sinais comerciais.`}
+          icon={SlidersHorizontal}
+          actions={
+            <Link href="/dashboard/projetos/novo">
+              <Button>Anunciar projeto</Button>
+            </Link>
+          }
+        />
 
         <form className="mt-6 flex max-w-xl gap-3">
           <div className="relative flex-1">
@@ -88,7 +83,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
       <div className="mt-8 flex flex-col gap-6 lg:flex-row">
         <aside className="w-full shrink-0 lg:w-72">
-          <div className="sticky top-24 rounded-lg border border-slate-200 bg-white p-5">
+          <div className="premium-panel sticky top-24 p-5">
             <h2 className="flex items-center gap-2 text-sm font-bold text-slate-950">
               <Filter className="h-4 w-4" />
               Filtros
@@ -101,8 +96,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                   href={withParam(params, "category")}
                   className={`block rounded-md px-2 py-1 text-sm ${
                     !params.category
-                      ? "bg-slate-950 text-white"
-                      : "text-slate-600 hover:bg-slate-100"
+                      ? "bg-slate-950 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-white hover:shadow-sm"
                   }`}
                 >
                   Todas
@@ -113,8 +108,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                     href={withParam(params, "category", value)}
                     className={`block rounded-md px-2 py-1 text-sm ${
                       params.category === value
-                        ? "bg-slate-950 text-white"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-slate-950 text-white shadow-sm"
+                        : "text-slate-600 hover:bg-white hover:shadow-sm"
                     }`}
                   >
                     {label}
@@ -132,8 +127,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                     href={withParam(params, "status", value)}
                     className={`block rounded-md px-2 py-1 text-sm ${
                       params.status === value
-                        ? "bg-slate-950 text-white"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-slate-950 text-white shadow-sm"
+                        : "text-slate-600 hover:bg-white hover:shadow-sm"
                     }`}
                   >
                     {label}
@@ -149,8 +144,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                   href={withParam(params, "hasRevenue", "true")}
                   className={`block rounded-md px-2 py-1 text-sm ${
                     params.hasRevenue === "true"
-                      ? "bg-emerald-600 text-white"
-                      : "text-slate-600 hover:bg-slate-100"
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-white hover:shadow-sm"
                   }`}
                 >
                   Possui receita
@@ -159,8 +154,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                   href={withParam(params, "hasDemo", "true")}
                   className={`block rounded-md px-2 py-1 text-sm ${
                     params.hasDemo === "true"
-                      ? "bg-emerald-600 text-white"
-                      : "text-slate-600 hover:bg-slate-100"
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-white hover:shadow-sm"
                   }`}
                 >
                   Possui demo
@@ -172,7 +167,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
         <div className="flex-1">
           {projects.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-slate-300 bg-white p-12 text-center">
+            <div className="premium-panel border-dashed border-slate-300 p-12 text-center">
               <h3 className="font-heading text-xl font-bold text-slate-950">
                 Nenhum projeto encontrado
               </h3>
@@ -194,6 +189,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </PageShell>
   );
 }

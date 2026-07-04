@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { APPROVAL_STATUS, CATEGORY_LABELS } from "@/lib/constants";
+import { PageShell, StatTile } from "@/components/shared/visual";
 
 function getStatusVariant(status: string) {
   switch (status) {
@@ -36,6 +37,7 @@ export default async function AdminPage() {
   });
 
   return (
+    <PageShell>
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div>
         <p className="flex items-center gap-2 text-sm font-semibold uppercase text-emerald-700">
@@ -55,11 +57,8 @@ export default async function AdminPage() {
           ["Aprovados", stats.aprovados, "text-emerald-700"],
           ["Rejeitados", stats.rejeitados, "text-red-700"],
           ["Leads", stats.leads, "text-blue-700"],
-        ].map(([label, value, color]) => (
-          <div key={label as string} className="rounded-lg border border-slate-200 bg-white p-4">
-            <p className={`font-heading text-2xl font-bold ${color}`}>{value}</p>
-            <p className="text-sm text-slate-500">{label}</p>
-          </div>
+        ].map(([label, value]) => (
+          <StatTile key={label as string} label={label as string} value={value as number} tone={label === "Pendentes" ? "amber" : label === "Rejeitados" ? "red" : label === "Leads" ? "blue" : "emerald"} />
         ))}
       </div>
 
@@ -76,14 +75,14 @@ export default async function AdminPage() {
         </div>
         <div className="mt-4 space-y-3">
           {pendingProjects.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-slate-300 bg-white py-10 text-center text-sm text-slate-500">
+            <p className="premium-panel border-dashed border-slate-300 py-10 text-center text-sm text-slate-500">
               Nenhum projeto pendente de aprovacao.
             </p>
           ) : (
             pendingProjects.map((project) => (
               <div
                 key={project.id}
-                className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="premium-card flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -117,5 +116,6 @@ export default async function AdminPage() {
         </div>
       </div>
     </div>
+    </PageShell>
   );
 }

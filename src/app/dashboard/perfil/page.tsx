@@ -2,12 +2,14 @@ import { Eye, UserRound } from "lucide-react";
 import Link from "next/link";
 import { requireProfile } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { PageShell } from "@/components/shared/visual";
 import { ProfileForm } from "./profile-form";
 
 export default async function ProfileSettingsPage() {
   const profile = await requireProfile();
 
   return (
+    <PageShell>
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
@@ -34,5 +36,6 @@ export default async function ProfileSettingsPage() {
         <ProfileForm profile={profile} />
       </div>
     </div>
+    </PageShell>
   );
 }

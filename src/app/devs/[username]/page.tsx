@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProjectCard } from "@/components/shared/project-card";
 import { sanitizeHttpUrl } from "@/lib/security";
 import { parseJsonArray } from "@/lib/utils";
+import { PageShell } from "@/components/shared/visual";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -30,8 +31,9 @@ export default async function DevProfilePage({ params }: PageProps) {
   const skills = parseJsonArray((profile as { skills?: unknown }).skills);
 
   return (
+    <PageShell>
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-10 rounded-lg border border-slate-200 bg-white p-8">
+      <div className="premium-panel mb-10 p-8">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left">
           <Avatar className="h-24 w-24">
             {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
@@ -74,7 +76,7 @@ export default async function DevProfilePage({ params }: PageProps) {
           Projetos publicados
         </h2>
         {profile.projects.length === 0 ? (
-          <div className="mt-6 rounded-lg border border-dashed border-slate-300 bg-white p-12 text-center">
+            <div className="premium-panel mt-6 border-dashed border-slate-300 p-12 text-center">
             <p className="text-slate-500">Nenhum projeto publicado ainda.</p>
           </div>
         ) : (
@@ -89,5 +91,6 @@ export default async function DevProfilePage({ params }: PageProps) {
         )}
       </div>
     </div>
+    </PageShell>
   );
 }

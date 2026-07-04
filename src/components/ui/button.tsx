@@ -4,18 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-slate-950 text-white hover:bg-slate-800",
+          "bg-slate-950 text-white shadow-lg shadow-slate-950/15 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-950/20",
         destructive:
-          "bg-red-600 text-white hover:bg-red-500",
+          "bg-red-600 text-white shadow-sm shadow-red-950/10 hover:bg-red-500",
         outline:
-          "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-950",
+          "border border-slate-200/90 bg-white/85 text-slate-700 shadow-sm shadow-slate-900/5 backdrop-blur hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-950",
         secondary:
-          "bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
+          "border border-emerald-100 bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-950/5 hover:bg-emerald-100",
         ghost:
           "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
         link: "text-slate-950 underline-offset-4 hover:underline",
