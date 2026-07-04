@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { INTEREST_TYPES } from "@/lib/constants";
+import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
 
 interface LeadFormProps {
   projectId: string;
@@ -43,6 +44,12 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
     };
 
     try {
+      trackEvent(analyticsEvents.leadStarted, {
+        projectId,
+        interestType: data.interestType,
+        hasOffer: Boolean(data.offerAmount),
+      });
+
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,6 +57,11 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
       });
 
       if (!res.ok) throw new Error("Erro ao enviar");
+      trackEvent(analyticsEvents.leadSubmitted, {
+        projectId,
+        interestType: data.interestType,
+        hasOffer: Boolean(data.offerAmount),
+      });
       setSubmitted(true);
     } catch {
       setError("Erro ao enviar interesse. Tente novamente.");

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { authErrorMessage } from "@/lib/auth-errors";
+import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,6 +41,7 @@ export default function RegisterPage() {
       return;
     }
 
+    trackEvent(analyticsEvents.signupStarted, { method: "password" });
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -60,11 +62,19 @@ export default function RegisterPage() {
     }
 
     if (!data.session) {
+      trackEvent(analyticsEvents.signupCompleted, {
+        method: "password",
+        requiresEmailConfirmation: true,
+      });
       setSuccess("Conta criada. Confirme seu email para ativar o acesso.");
       setLoading(null);
       return;
     }
 
+    trackEvent(analyticsEvents.signupCompleted, {
+      method: "password",
+      requiresEmailConfirmation: false,
+    });
     router.push("/dashboard");
     router.refresh();
   }
@@ -76,6 +86,7 @@ export default function RegisterPage() {
     const supabase = createClient();
     const redirectTo = `${window.location.origin}/api/auth/callback?next=/dashboard`;
 
+    trackEvent(analyticsEvents.socialAuthStarted, { provider, flow: "signup" });
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo },

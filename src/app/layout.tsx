@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+
+const ADSENSE_CLIENT_ID = "ca-pub-2572298012241654";
 
 export const metadata: Metadata = {
   title: {
@@ -11,6 +14,9 @@ export const metadata: Metadata = {
   },
   description:
     "O marketplace brasileiro para devs venderem micro-SaaS, apps prontos, templates, landing pages e side projects.",
+  other: {
+    "google-adsense-account": ADSENSE_CLIENT_ID,
+  },
 };
 
 export default function RootLayout({
@@ -20,6 +26,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <Script
+          id="google-adsense"
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="font-body bg-slate-50 text-slate-950 antialiased">
         <div className="flex min-h-screen flex-col">
           <Header />

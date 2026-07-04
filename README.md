@@ -65,6 +65,40 @@ Acesse `http://localhost:3000`.
 - Marketplace mostra apenas projetos `APROVADO`.
 - Leads so podem ser criados para projetos aprovados.
 
+## Google AdSense e metricas
+
+O projeto ja inclui a configuracao do Google AdSense para o publisher:
+
+```txt
+ca-pub-2572298012241654
+```
+
+Foram adicionados:
+
+- `<meta name="google-adsense-account" content="ca-pub-2572298012241654">`.
+- Script global do AdSense via `next/script`.
+- `public/ads.txt` com:
+
+```txt
+google.com, pub-2572298012241654, DIRECT, f08c47fec0942fa0
+```
+
+No Google AdSense, cadastre o dominio de producao do projeto e use o publisher
+`pub-2572298012241654`. O arquivo deve ficar acessivel em `/ads.txt` apos o
+deploy.
+
+Para metricas de produto, o projeto usa Vercel Analytics e eventos customizados:
+
+- `Lead Started`
+- `Lead Submitted`
+- `Project Created`
+- `Signup Started`
+- `Signup Completed`
+- `Login Completed`
+- `Social Auth Started`
+
+Os eventos nao enviam dados pessoais como nome, email ou mensagem do lead.
+
 ## Scripts
 
 ```bash

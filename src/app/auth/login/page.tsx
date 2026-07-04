@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { authErrorMessage } from "@/lib/auth-errors";
+import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
 import { safeInternalPath } from "@/lib/security";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,6 +42,7 @@ export default function LoginPage() {
       return;
     }
 
+    trackEvent(analyticsEvents.loginCompleted, { method: "password" });
     router.push("/dashboard");
     router.refresh();
   }
@@ -53,6 +55,7 @@ export default function LoginPage() {
     const next = safeInternalPath(searchParams.get("next"));
     const redirectTo = `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(next)}`;
 
+    trackEvent(analyticsEvents.socialAuthStarted, { provider, flow: "login" });
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo },

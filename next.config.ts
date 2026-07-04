@@ -11,9 +11,9 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com https://vercel.live`,
-  "connect-src 'self' https://*.supabase.co https://*.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://*.vercel.live",
-  "frame-src https://vercel.live https://*.vercel.live",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com https://vercel.live https://pagead2.googlesyndication.com https://partner.googleadservices.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com`,
+  "connect-src 'self' https://*.supabase.co https://*.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://*.vercel.live https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
+  "frame-src https://vercel.live https://*.vercel.live https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
   isDev ? "" : "upgrade-insecure-requests",
 ]
   .filter(Boolean)

@@ -20,6 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
 import { CATEGORIAS, STATUS_PROJETO } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 
@@ -94,6 +95,13 @@ export default function NewProjectPage() {
         throw new Error(err.error || "Erro ao cadastrar projeto");
       }
 
+      trackEvent(analyticsEvents.projectCreated, {
+        category: data.category,
+        status: data.status,
+        hasPrice: data.price > 0,
+        hasRevenue: data.monthlyRevenue > 0,
+        hasDemo: Boolean(data.demoUrl),
+      });
       router.push("/dashboard");
       router.refresh();
     } catch (err) {
