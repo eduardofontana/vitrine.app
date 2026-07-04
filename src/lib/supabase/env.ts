@@ -11,9 +11,11 @@ function normalizeSupabaseUrl(value?: string) {
     return undefined;
   }
 
+  const cleanValue = value.trim().replace(/^["']|["']$/g, "");
+
   try {
-    return new URL(value).origin;
+    return new URL(cleanValue).origin;
   } catch {
-    return value.replace(/\/(?:rest|auth)\/v1\/?$/, "").replace(/\/$/, "");
+    return cleanValue.replace(/\/(?:rest|auth)\/v1\/?$/, "").replace(/\/$/, "");
   }
 }
