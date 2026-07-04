@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireProfile } from "@/lib/auth";
+import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { projectSchema, type ProjectInput } from "@/lib/validations";
 import { parseJsonArray } from "@/lib/utils";
@@ -10,7 +10,11 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const profile = await requireProfile();
+    const profile = await getCurrentProfile();
+    if (!profile) {
+      return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+    }
+
     const { id } = await params;
     const project = await prisma.project.findUnique({ where: { id } });
 
@@ -39,7 +43,7 @@ export async function PATCH(
       );
     }
 
-    const payload = parsed.data as ProjectInput;
+    const payload: ProjectInput = parsed.data;
     const { screenshotUrl, ...projectDataWithSlug } = payload;
     const { slug, ...projectData } = projectDataWithSlug;
     void slug;

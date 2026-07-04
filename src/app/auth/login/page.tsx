@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
 import { safeInternalPath } from "@/lib/security";
+import { loginSchema } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,10 +31,22 @@ export default function LoginPage() {
     setLoading("password");
 
     const form = new FormData(e.currentTarget);
+    const parsed = loginSchema.safeParse({
+      email: form.get("email"),
+      password: form.get("password"),
+    });
+
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0];
+      setError(firstIssue?.message || "Revise os dados informados.");
+      setLoading(null);
+      return;
+    }
+
     const supabase = createClient();
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: form.get("email") as string,
-      password: form.get("password") as string,
+      email: parsed.data.email,
+      password: parsed.data.password,
     });
 
     if (signInError) {

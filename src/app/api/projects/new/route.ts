@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import { requireProfile } from "@/lib/auth";
+import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { projectSchema, type ProjectInput } from "@/lib/validations";
 import { isJsonBodyWithinLimit } from "@/lib/security";
 
 export async function POST(request: Request) {
   try {
-    const profile = await requireProfile();
+    const profile = await getCurrentProfile();
+    if (!profile) {
+      return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+    }
+
     if (!isJsonBodyWithinLimit(request)) {
       return NextResponse.json({ error: "Payload muito grande" }, { status: 413 });
     }
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const payload = parsed.data as ProjectInput;
+    const payload: ProjectInput = parsed.data;
     const existing = await prisma.project.findUnique({
       where: { slug: payload.slug },
     });

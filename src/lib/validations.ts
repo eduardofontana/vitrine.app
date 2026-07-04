@@ -113,53 +113,8 @@ export const profileSchema = z.object({
   skills: limitedStringArray,
 });
 
-export type LoginInput = {
-  email: string;
-  password: string;
-};
-
-export type RegisterInput = {
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-};
-
-export type ProjectInput = {
-  name: string;
-  slug: string;
-  shortDescription: string;
-  description: string;
-  category: string;
-  projectType?: string;
-  status: string;
-  price: number;
-  acceptsOffers: boolean;
-  monthlyRevenue: number;
-  monthlyCosts: number;
-  usersCount: number;
-  demoUrl?: string;
-  websiteUrl?: string;
-  screenshotUrl?: string;
-  repositoryInfo?: string;
-  techStack: string[];
-  includedAssets: string[];
-  reasonForSelling?: string;
-};
-
-export type LeadInput = {
-  projectId: string;
-  buyerName: string;
-  buyerEmail: string;
-  message: string;
-  interestType: "QUERO_COMPRAR" | "QUERO_NEGOCIAR" | "QUERO_SABER_MAIS";
-  offerAmount?: number;
-};
-
-export type ProfileInput = {
-  name: string;
-  username: string;
-  bio?: string;
-  avatarUrl?: string;
-  skills: string[];
-};
+export type LoginInput = z.infer<typeof loginSchema>;
+export type RegisterInput = z.infer<typeof registerSchema>;
+export type ProjectInput = z.infer<typeof projectSchema>;
+export type LeadInput = z.infer<typeof leadSchema>;
+export type ProfileInput = z.infer<typeof profileSchema>;

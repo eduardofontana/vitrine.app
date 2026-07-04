@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request: Request) {
@@ -9,7 +10,7 @@ export async function GET(request: Request) {
   const hasRevenue = searchParams.get("hasRevenue");
   const hasDemo = searchParams.get("hasDemo");
 
-  const where: Record<string, unknown> = {
+  const where: Prisma.ProjectWhereInput = {
     approvalStatus: "APROVADO",
   };
 
@@ -26,7 +27,7 @@ export async function GET(request: Request) {
 
   try {
     const projects = await prisma.project.findMany({
-      where: where as never,
+      where,
       select: {
         id: true,
         name: true,

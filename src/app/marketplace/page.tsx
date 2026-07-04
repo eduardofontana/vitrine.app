@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Filter, Search, SlidersHorizontal } from "lucide-react";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +30,7 @@ function withParam(params: Record<string, string | undefined>, key: string, valu
 
 export default async function MarketplacePage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const where: Record<string, unknown> = { approvalStatus: "APROVADO" };
+  const where: Prisma.ProjectWhereInput = { approvalStatus: "APROVADO" };
 
   if (params.category) where.category = params.category;
   if (params.status) where.status = params.status;
@@ -43,7 +44,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
   if (params.hasDemo === "true") where.demoUrl = { not: null };
 
   const projects = await prisma.project.findMany({
-    where: where as never,
+    where,
     include: { owner: { select: { name: true, username: true } } },
     orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
   });

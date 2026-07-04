@@ -7,6 +7,7 @@ import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
+import { registerSchema } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,25 +32,30 @@ export default function RegisterPage() {
     setLoading("password");
 
     const form = new FormData(e.currentTarget);
-    const supabase = createClient();
-    const email = String(form.get("email") || "").trim();
-    const password = String(form.get("password") || "");
+    const parsed = registerSchema.safeParse({
+      name: form.get("name"),
+      email: form.get("email"),
+      username: form.get("username"),
+      password: form.get("password"),
+    });
 
-    if (password.length < 8) {
-      setError("Use uma senha com pelo menos 8 caracteres.");
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0];
+      setError(firstIssue?.message || "Revise os dados informados.");
       setLoading(null);
       return;
     }
 
+    const supabase = createClient();
     trackEvent(analyticsEvents.signupStarted, { method: "password" });
     const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
+      email: parsed.data.email,
+      password: parsed.data.password,
       options: {
         data: {
-          name: form.get("name") as string,
-          full_name: form.get("name") as string,
-          user_name: form.get("username") as string,
+          name: parsed.data.name,
+          full_name: parsed.data.name,
+          user_name: parsed.data.username,
         },
         emailRedirectTo: `${window.location.origin}/api/auth/callback`,
       },

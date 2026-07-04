@@ -1,4 +1,5 @@
 import { MessageSquare } from "lucide-react";
+import type { Prisma } from "@prisma/client";
 import { requireProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
@@ -24,13 +25,13 @@ const interestLabels: Record<string, string> = {
 export default async function LeadsPage({ searchParams }: PageProps) {
   const profile = await requireProfile();
   const params = await searchParams;
-  const where: Record<string, unknown> = {
+  const where: Prisma.LeadWhereInput = {
     project: { ownerId: profile.id },
   };
   if (params.projectId) where.projectId = params.projectId;
 
   const leads = await prisma.lead.findMany({
-    where: where as never,
+    where,
     include: { project: { select: { name: true, slug: true } } },
     orderBy: { createdAt: "desc" },
   });

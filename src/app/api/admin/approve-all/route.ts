@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
-import { requireAdminProfile } from "@/lib/auth";
+import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getRequestOrigin } from "@/lib/security";
 
 export async function POST(request: Request) {
-  await requireAdminProfile();
+  const profile = await getCurrentProfile();
+  if (!profile) {
+    return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+  }
+  if (profile.role !== "ADMIN") {
+    return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
+  }
+
   await prisma.project.updateMany({
     where: { approvalStatus: "PENDENTE" },
     data: { approvalStatus: "APROVADO" },

@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import { requireProfile } from "@/lib/auth";
+import type { Prisma } from "@prisma/client";
+import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isJsonBodyWithinLimit } from "@/lib/security";
 import { profileSchema, type ProfileInput } from "@/lib/validations";
 
 export async function PATCH(request: Request) {
   try {
-    const profile = await requireProfile();
+    const profile = await getCurrentProfile();
+    if (!profile) {
+      return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+    }
 
     if (!isJsonBodyWithinLimit(request, 32 * 1024)) {
       return NextResponse.json({ error: "Payload muito grande" }, { status: 413 });
@@ -22,7 +26,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const payload = parsed.data as ProfileInput;
+    const payload: ProfileInput = parsed.data;
     const usernameOwner = await prisma.profile.findUnique({
       where: { username: payload.username },
       select: { id: true },
@@ -43,14 +47,14 @@ export async function PATCH(request: Request) {
         bio: payload.bio || null,
         avatarUrl: payload.avatarUrl || null,
         skills: payload.skills,
-      } as never,
+      } satisfies Prisma.ProfileUpdateInput,
       select: {
         name: true,
         username: true,
         bio: true,
         avatarUrl: true,
         skills: true,
-      } as never,
+      },
     });
 
     return NextResponse.json(updated);

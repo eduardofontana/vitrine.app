@@ -11,11 +11,10 @@ export function safeInternalPath(value: string | null, fallback = "/dashboard") 
     if (!INTERNAL_PATH_PATTERN.test(decoded) || decoded.includes("\\")) {
       return fallback;
     }
+    return decoded;
   } catch {
     return fallback;
   }
-
-  return value;
 }
 
 export function isJsonBodyWithinLimit(request: Request, limit = MAX_JSON_BODY_BYTES) {
