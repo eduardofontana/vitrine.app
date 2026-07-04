@@ -3,6 +3,19 @@
 Marketplace brasileiro para devs venderem micro-SaaS, apps prontos, templates,
 landing pages e side projects.
 
+## Licenca e uso comercial
+
+Este repositorio e publico, mas **nao e open source para uso comercial**.
+O codigo esta disponivel para estudo, avaliacao, auditoria, testes privados e
+contribuicoes nao comerciais.
+
+Qualquer uso comercial, incluindo deploy publico, produto SaaS, marketplace,
+template pago, projeto de cliente, white-label, revenda ou uso interno em uma
+empresa, exige uma licenca comercial paga e permissao previa por escrito.
+
+Consulte [LICENSE](./LICENSE) antes de usar, copiar, modificar, hospedar ou
+distribuir este projeto.
+
 ## Stack
 
 - Next.js 15 com App Router
@@ -65,3 +78,11 @@ npm run db:migrate
 npm run db:seed
 npm run db:studio
 ```
+
+## Licenca
+
+Copyright (c) 2026 Eduardo Fontana.
+
+Distribuido sob a **Vitrine App Source-Available Non-Commercial License**.
+Uso comercial nao autorizado e proibido. Para uso comercial, solicite uma
+licenca paga antes de usar o projeto.

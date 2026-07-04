@@ -1,0 +1,74 @@
+Vitrine App Source-Available Non-Commercial License
+Version 1.0 - 2026-07-04
+
+Copyright (c) 2026 Eduardo Fontana. All rights reserved.
+
+This repository is public for transparency, evaluation, learning, and
+non-commercial contribution. Public availability does not grant permission for
+commercial use.
+
+1. Permission Granted
+
+You may view, download, fork, and modify the Software only for:
+
+- personal study;
+- private testing;
+- security review;
+- non-commercial evaluation;
+- contributing improvements back to the original repository.
+
+2. Commercial Use Requires a Paid License
+
+You may not use the Software, in whole or in part, for commercial purposes
+without a separate paid license agreement from the copyright holder.
+
+Commercial purposes include, without limitation:
+
+- operating a public or private marketplace, SaaS, template store, agency
+  product, or client project based on the Software;
+- selling, renting, sublicensing, hosting, or monetizing the Software or a
+  derivative work;
+- using the Software to provide paid services, paid consulting deliverables, or
+  internal business operations;
+- incorporating the Software into a commercial product, paid workflow, or
+  revenue-generating project;
+- removing branding and launching a competing or substantially similar product.
+
+3. Restrictions
+
+You may not:
+
+- remove or obscure copyright notices, license notices, or attribution;
+- redistribute the Software or derivatives under another license;
+- claim ownership of the Software;
+- use the Software in a way that violates applicable law or third-party rights;
+- use the Software to train, fine-tune, or evaluate commercial AI systems
+  without a separate written agreement.
+
+4. Contributions
+
+By submitting a contribution to this repository, you grant the copyright holder
+a perpetual, worldwide, royalty-free right to use, modify, publish, distribute,
+and sublicense your contribution as part of the Software, including in paid or
+commercially licensed versions.
+
+5. Third-Party Software
+
+Third-party dependencies remain governed by their own licenses. This license
+applies only to the original Vitrine App source code, documentation, branding,
+design, and project-specific assets in this repository.
+
+6. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+A PARTICULAR PURPOSE, NON-INFRINGEMENT, SECURITY, OR AVAILABILITY. THE COPYRIGHT
+HOLDER IS NOT LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE
+SOFTWARE OR ITS USE.
+
+7. Paid License Contact
+
+For commercial use, deployment, resale, client work, white-label use, or any
+other use not expressly allowed above, contact the copyright holder to obtain a
+paid commercial license before using the Software.
+
