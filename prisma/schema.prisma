@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String   @id @db.Uuid
+  name      String
+  email     String   @unique
+  username  String   @unique
+  avatarUrl String?
+  bio       String?
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects Project[]
+
+  @@map("profiles")
+}
+
+model Project {
+  id                 String   @id @default(cuid())
+  ownerId            String   @db.Uuid
+  name               String
+  slug               String   @unique
+  shortDescription   String
+  description        String
+  category           String
+  projectType        String?
+  status             String
+  approvalStatus     String   @default("PENDENTE")
+  price              Float    @default(0)
+  acceptsOffers      Boolean  @default(true)
+  monthlyRevenue     Float    @default(0)
+  monthlyCosts       Float    @default(0)
+  usersCount         Int      @default(0)
+  demoUrl            String?
+  websiteUrl         String?
+  repositoryInfo     String?
+  techStack          Json     @default("[]")
+  includedAssets     Json     @default("[]")
+  reasonForSelling   String?
+  screenshots        Json     @default("[]")
+  isFeatured         Boolean  @default(false)
+  hasVerifiedDemo    Boolean  @default(false)
+  hasVerifiedCode    Boolean  @default(false)
+  hasSecureSale      Boolean  @default(false)
+  viewCount          Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  owner Profile @relation(fields: [ownerId], references: [id])
+  leads Lead[]
+
+  @@map("projects")
+}
+
+model Lead {
+  id           String   @id @default(cuid())
+  projectId    String
+  buyerName    String
+  buyerEmail   String
+  message      String
+  interestType String
+  offerAmount  Float?
+  createdAt    DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("leads")
+}
