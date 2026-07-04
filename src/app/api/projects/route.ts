@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const category = searchParams.get("category");
-  const status = searchParams.get("status");
-  const search = searchParams.get("search");
+  const category = searchParams.get("category")?.slice(0, 80);
+  const status = searchParams.get("status")?.slice(0, 80);
+  const search = searchParams.get("search")?.trim().slice(0, 120);
   const hasRevenue = searchParams.get("hasRevenue");
   const hasDemo = searchParams.get("hasDemo");
 
@@ -27,10 +27,34 @@ export async function GET(request: Request) {
   try {
     const projects = await prisma.project.findMany({
       where: where as never,
-      include: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        shortDescription: true,
+        category: true,
+        projectType: true,
+        status: true,
+        price: true,
+        acceptsOffers: true,
+        monthlyRevenue: true,
+        monthlyCosts: true,
+        usersCount: true,
+        demoUrl: true,
+        websiteUrl: true,
+        techStack: true,
+        includedAssets: true,
+        screenshots: true,
+        isFeatured: true,
+        hasVerifiedDemo: true,
+        hasVerifiedCode: true,
+        hasVerifiedRevenue: true,
+        hasSecureSale: true,
+        createdAt: true,
         owner: { select: { name: true, username: true } },
       },
       orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+      take: 60,
     });
 
     return NextResponse.json(projects);

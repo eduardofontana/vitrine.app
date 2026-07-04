@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validations";
+import { isJsonBodyWithinLimit } from "@/lib/security";
 
 export async function POST(request: Request) {
   try {
+    if (!isJsonBodyWithinLimit(request, 16 * 1024)) {
+      return NextResponse.json({ error: "Payload muito grande" }, { status: 413 });
+    }
+
     const body = await request.json();
     const parsed = leadSchema.safeParse(body);
 
@@ -38,7 +43,7 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(lead, { status: 201 });
+    return NextResponse.json({ id: lead.id }, { status: 201 });
   } catch (error) {
     console.error("Lead error:", error);
     return NextResponse.json(

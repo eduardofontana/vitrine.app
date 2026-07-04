@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateProfile } from "@/lib/auth";
+import { safeInternalPath } from "@/lib/security";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -9,7 +10,7 @@ export async function GET(request: Request) {
 
   if (path.endsWith("/callback")) {
     const code = requestUrl.searchParams.get("code");
-    const next = requestUrl.searchParams.get("next") || "/dashboard";
+    const next = safeInternalPath(requestUrl.searchParams.get("next"));
 
     if (code) {
       const { data, error } = await supabase.auth.exchangeCodeForSession(code);

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { LogOut, Store } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
+import { sanitizeHttpUrl } from "@/lib/security";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export async function Header() {
   const profile = await getCurrentProfile();
+  const avatarUrl = sanitizeHttpUrl(profile?.avatarUrl);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/85 backdrop-blur-xl">
@@ -40,7 +42,7 @@ export async function Header() {
               </Link>
               <Link href="/dashboard" className="flex items-center gap-2">
                 <Avatar className="h-9 w-9">
-                  {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt={profile.name} />}
+                  {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
                   <AvatarFallback>{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
               </Link>
@@ -73,7 +75,7 @@ export async function Header() {
           {profile ? (
             <Link href="/dashboard">
               <Avatar className="h-9 w-9">
-                {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt={profile.name} />}
+                {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.name} />}
                 <AvatarFallback>{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
             </Link>

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { requireProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { projectSchema } from "@/lib/validations";
+import { projectSchema, type ProjectInput } from "@/lib/validations";
 import { parseJsonArray } from "@/lib/utils";
+import { isJsonBodyWithinLimit } from "@/lib/security";
 
 export async function PATCH(
   request: Request,
@@ -21,6 +22,10 @@ export async function PATCH(
       return NextResponse.json({ error: "Nao autorizado" }, { status: 403 });
     }
 
+    if (!isJsonBodyWithinLimit(request)) {
+      return NextResponse.json({ error: "Payload muito grande" }, { status: 413 });
+    }
+
     const body = await request.json();
     const parsed = projectSchema.safeParse({
       slug: project.slug,
@@ -34,14 +39,26 @@ export async function PATCH(
       );
     }
 
-    const payload = parsed.data;
+    const payload = parsed.data as ProjectInput;
     const { screenshotUrl, ...projectDataWithSlug } = payload;
     const { slug, ...projectData } = projectDataWithSlug;
     void slug;
     const updated = await prisma.project.update({
       where: { id },
       data: {
-        ...projectData,
+        name: projectData.name,
+        shortDescription: projectData.shortDescription,
+        description: projectData.description,
+        category: projectData.category,
+        projectType: projectData.projectType || null,
+        status: projectData.status,
+        price: projectData.price,
+        acceptsOffers: projectData.acceptsOffers,
+        monthlyRevenue: projectData.monthlyRevenue,
+        monthlyCosts: projectData.monthlyCosts,
+        usersCount: projectData.usersCount,
+        techStack: projectData.techStack,
+        includedAssets: projectData.includedAssets,
         demoUrl: payload.demoUrl || null,
         websiteUrl: payload.websiteUrl || null,
         repositoryInfo: payload.repositoryInfo || null,
@@ -51,7 +68,11 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(updated);
+    return NextResponse.json({
+      id: updated.id,
+      slug: updated.slug,
+      approvalStatus: updated.approvalStatus,
+    });
   } catch (error) {
     console.error("Update project error:", error);
     return NextResponse.json(

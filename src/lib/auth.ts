@@ -3,10 +3,11 @@ import type { User } from "@supabase/supabase-js";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import { sanitizeHttpUrl } from "@/lib/security";
 
 export function getProfileDefaults(user: User) {
   const metadata = user.user_metadata ?? {};
-  const name =
+  const rawName =
     (metadata.full_name as string | undefined) ||
     (metadata.name as string | undefined) ||
     user.email?.split("@")[0] ||
@@ -18,7 +19,7 @@ export function getProfileDefaults(user: User) {
     user.id.slice(0, 8);
 
   return {
-    name,
+    name: rawName.trim().slice(0, 80) || "Novo usuario",
     email: user.email || `${user.id}@users.vitrine.app`,
     username: usernameBase
       .toLowerCase()
@@ -27,9 +28,8 @@ export function getProfileDefaults(user: User) {
       .replace(/^_+|_+$/g, "")
       .slice(0, 24),
     avatarUrl:
-      (metadata.avatar_url as string | undefined) ||
-      (metadata.picture as string | undefined) ||
-      null,
+      sanitizeHttpUrl(metadata.avatar_url) ||
+      sanitizeHttpUrl(metadata.picture),
   };
 }
 

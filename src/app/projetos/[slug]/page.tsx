@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
 import { firstImage, formatPrice, parseJsonArray } from "@/lib/utils";
+import { sanitizeHttpUrl } from "@/lib/security";
 import { LeadForm } from "@/components/shared/lead-form";
 
 interface PageProps {
@@ -47,6 +48,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   const image = firstImage(project.screenshots);
+  const ownerAvatarUrl = sanitizeHttpUrl(project.owner.avatarUrl);
   const techStack = parseJsonArray(project.techStack);
   const includedAssets = parseJsonArray(project.includedAssets);
 
@@ -209,7 +211,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
-                  {project.owner.avatarUrl && <AvatarImage src={project.owner.avatarUrl} alt={project.owner.name} />}
+                  {ownerAvatarUrl && <AvatarImage src={ownerAvatarUrl} alt={project.owner.name} />}
                   <AvatarFallback>{project.owner.name.charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>

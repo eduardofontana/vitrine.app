@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { sanitizeHttpUrl } from "@/lib/security";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -34,5 +35,11 @@ export function parseJsonArray(value: unknown): string[] {
 
 export function firstImage(value: unknown): string | null {
   const images = parseJsonArray(value);
-  return images.find(Boolean) || null;
+  for (const image of images) {
+    const safeUrl = sanitizeHttpUrl(image);
+    if (safeUrl) {
+      return safeUrl;
+    }
+  }
+  return null;
 }

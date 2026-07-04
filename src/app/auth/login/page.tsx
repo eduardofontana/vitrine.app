@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Chrome, Github, Loader2, Store } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { safeInternalPath } from "@/lib/security";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +49,7 @@ export default function LoginPage() {
     setLoading(provider);
     const supabase = createClient();
     const searchParams = new URLSearchParams(window.location.search);
-    const next = searchParams.get("next") || "/dashboard";
+    const next = safeInternalPath(searchParams.get("next"));
     const redirectTo = `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(next)}`;
 
     const { error: oauthError } = await supabase.auth.signInWithOAuth({

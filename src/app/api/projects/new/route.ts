@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import { requireProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { projectSchema } from "@/lib/validations";
+import { projectSchema, type ProjectInput } from "@/lib/validations";
+import { isJsonBodyWithinLimit } from "@/lib/security";
 
 export async function POST(request: Request) {
   try {
     const profile = await requireProfile();
+    if (!isJsonBodyWithinLimit(request)) {
+      return NextResponse.json({ error: "Payload muito grande" }, { status: 413 });
+    }
+
     const body = await request.json();
     const parsed = projectSchema.safeParse(body);
 
@@ -16,7 +21,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const payload = parsed.data;
+    const payload = parsed.data as ProjectInput;
     const existing = await prisma.project.findUnique({
       where: { slug: payload.slug },
     });
@@ -31,7 +36,20 @@ export async function POST(request: Request) {
     const { screenshotUrl, ...projectData } = payload;
     const project = await prisma.project.create({
       data: {
-        ...projectData,
+        name: projectData.name,
+        slug: projectData.slug,
+        shortDescription: projectData.shortDescription,
+        description: projectData.description,
+        category: projectData.category,
+        projectType: projectData.projectType || null,
+        status: projectData.status,
+        price: projectData.price,
+        acceptsOffers: projectData.acceptsOffers,
+        monthlyRevenue: projectData.monthlyRevenue,
+        monthlyCosts: projectData.monthlyCosts,
+        usersCount: projectData.usersCount,
+        techStack: projectData.techStack,
+        includedAssets: projectData.includedAssets,
         ownerId: profile.id,
         demoUrl: payload.demoUrl || null,
         websiteUrl: payload.websiteUrl || null,
@@ -42,7 +60,14 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(project, { status: 201 });
+    return NextResponse.json(
+      {
+        id: project.id,
+        slug: project.slug,
+        approvalStatus: project.approvalStatus,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Create project error:", error);
     return NextResponse.json(
