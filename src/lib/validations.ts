@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CATEGORIA_VALUES, INTEREST_VALUES, STATUS_VALUES } from "@/lib/constants";
 
 const limitedText = (min: number, max: number, field: string) =>
   z
@@ -54,29 +55,9 @@ export const projectSchema = z.object({
     .min(10, "Minimo de 10 caracteres")
     .max(200, "Maximo de 200 caracteres"),
   description: limitedText(20, 5000, "Descricao"),
-  category: z.enum([
-    "MICRO_SAAS",
-    "APP_WEB",
-    "APP_MOBILE",
-    "LANDING_PAGE",
-    "TEMPLATE",
-    "AUTOMACAO",
-    "BOT",
-    "API",
-    "E_COMMERCE",
-    "EXTENSAO",
-    "OUTRO",
-  ]),
+  category: z.enum(CATEGORIA_VALUES as [string, ...string[]]),
   projectType: z.string().trim().max(60, "Tipo de projeto muito longo").optional(),
-  status: z.enum([
-    "IDEIA_VALIDADA",
-    "MVP",
-    "EM_PRODUCAO",
-    "COM_USUARIOS",
-    "COM_RECEITA",
-    "PAUSADO",
-    "PRONTO_PARA_VENDA",
-  ]),
+  status: z.enum(STATUS_VALUES as [string, ...string[]]),
   price: z.coerce.number().finite().min(0, "Preco nao pode ser negativo").max(100000000),
   acceptsOffers: z.boolean().default(true),
   monthlyRevenue: z.coerce.number().finite().min(0).max(100000000).default(0),
@@ -96,7 +77,7 @@ export const leadSchema = z.object({
   buyerName: limitedText(2, 80, "Nome"),
   buyerEmail: z.string().trim().email("Email invalido").max(254, "Email muito longo"),
   message: limitedText(10, 2000, "Mensagem"),
-  interestType: z.enum(["QUERO_COMPRAR", "QUERO_NEGOCIAR", "QUERO_SABER_MAIS"]),
+  interestType: z.enum(INTEREST_VALUES as [string, ...string[]]),
   offerAmount: z.coerce.number().finite().min(0).max(100000000).optional(),
 });
 

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card";
 import { PageShell } from "@/components/shared/visual";
 import { analyticsEvents, trackEvent } from "@/lib/analytics-events";
-import { CATEGORIAS, STATUS_PROJETO } from "@/lib/constants";
+import { ASSET_TYPES, CATEGORIAS, STATUS_PROJETO } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 
 export default function NewProjectPage() {
@@ -49,16 +49,8 @@ export default function NewProjectPage() {
       .filter(Boolean);
 
     const includedAssets: string[] = [];
-    const assetCheckboxes = [
-      "CODIGO_FONTE",
-      "DOMINIO",
-      "MARCA",
-      "DOCUMENTACAO",
-      "CLIENTES",
-      "BANCO_DADOS",
-    ];
-    for (const asset of assetCheckboxes) {
-      if (form.get(asset) === "on") includedAssets.push(asset);
+    for (const asset of ASSET_TYPES) {
+      if (form.get(asset.value) === "on") includedAssets.push(asset.value);
     }
 
     const data = {
@@ -221,14 +213,7 @@ export default function NewProjectPage() {
               <div className="space-y-2">
                 <Label>O que esta incluso na venda</Label>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {[
-                    { value: "CODIGO_FONTE", label: "Codigo-fonte" },
-                    { value: "DOMINIO", label: "Dominio" },
-                    { value: "MARCA", label: "Marca" },
-                    { value: "DOCUMENTACAO", label: "Documentacao" },
-                    { value: "CLIENTES", label: "Clientes" },
-                    { value: "BANCO_DADOS", label: "Banco de dados" },
-                  ].map((asset) => (
+                  {ASSET_TYPES.map((asset) => (
                     <label key={asset.value} className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white/70 px-3 py-2 text-sm font-medium text-slate-600">
                       <input type="checkbox" name={asset.value} className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
                       {asset.label}

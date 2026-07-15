@@ -3,8 +3,7 @@ import { ArrowUpRight, Code2, Eye, ShieldCheck, TrendingUp } from "lucide-react"
 import type { Project, Profile } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORY_LABELS } from "@/lib/constants";
-import { firstImage, formatPrice, parseJsonArray } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { cn, firstImage, formatPrice, parseJsonArray } from "@/lib/utils";
 
 type ProjectCardProject = Project & {
   owner?: Pick<Profile, "name" | "username">;

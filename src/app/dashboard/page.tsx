@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { APPROVAL_STATUS, CATEGORY_LABELS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import { MiniChart, PageShell, SectionHeader, StatTile } from "@/components/shared/visual";
+import { PageShell, SectionHeader, StatTile } from "@/components/shared/visual";
 
 export default async function DashboardPage() {
   const profile = await requireProfile();
@@ -89,9 +89,6 @@ export default async function DashboardPage() {
               <Badge variant={pendingProjects > 0 ? "warning" : "secondary"}>
                 {pendingProjects > 0 ? `${pendingProjects} pendente(s)` : "Em dia"}
               </Badge>
-            </div>
-            <div className="mt-6">
-              <MiniChart />
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-slate-200/80 bg-slate-50/80 p-4">

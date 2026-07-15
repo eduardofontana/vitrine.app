@@ -12,6 +12,8 @@ export const CATEGORIAS = [
   { value: "OUTRO", label: "Outro" },
 ] as const;
 
+export const CATEGORIA_VALUES = CATEGORIAS.map((c) => c.value);
+
 export const STATUS_PROJETO = [
   { value: "IDEIA_VALIDADA", label: "Ideia validada" },
   { value: "MVP", label: "MVP" },
@@ -21,6 +23,8 @@ export const STATUS_PROJETO = [
   { value: "PAUSADO", label: "Pausado" },
   { value: "PRONTO_PARA_VENDA", label: "Pronto para venda" },
 ] as const;
+
+export const STATUS_VALUES = STATUS_PROJETO.map((s) => s.value);
 
 export const APPROVAL_STATUS = [
   { value: "PENDENTE", label: "Pendente" },
@@ -34,10 +38,29 @@ export const INTEREST_TYPES = [
   { value: "QUERO_SABER_MAIS", label: "Quero saber mais" },
 ] as const;
 
+export const INTEREST_VALUES = INTEREST_TYPES.map((i) => i.value);
+
+export const ASSET_TYPES = [
+  { value: "CODIGO_FONTE", label: "Codigo-fonte" },
+  { value: "DOMINIO", label: "Dominio" },
+  { value: "MARCA", label: "Marca" },
+  { value: "DOCUMENTACAO", label: "Documentacao" },
+  { value: "CLIENTES", label: "Clientes" },
+  { value: "BANCO_DADOS", label: "Banco de dados" },
+] as const;
+
 export const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIAS.map((category) => [category.value, category.label])
 );
 
 export const STATUS_LABELS: Record<string, string> = Object.fromEntries(
   STATUS_PROJETO.map((status) => [status.value, status.label])
+);
+
+export const INTEREST_LABELS: Record<string, string> = Object.fromEntries(
+  INTEREST_TYPES.map((interest) => [interest.value, interest.label])
+);
+
+export const ASSET_LABELS: Record<string, string> = Object.fromEntries(
+  ASSET_TYPES.map((asset) => [asset.value, asset.label])
 );

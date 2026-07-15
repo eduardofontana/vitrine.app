@@ -1,6 +1,6 @@
 import type React from "react";
 import type { LucideIcon } from "lucide-react";
-import { ArrowUpRight, BadgeCheck, BarChart3, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function PageShell({
@@ -170,20 +170,6 @@ export function MarketplaceMockup({ className }: { className?: string }) {
   );
 }
 
-export function MiniChart() {
-  return (
-    <div className="flex h-20 items-end gap-1.5">
-      {[36, 48, 42, 60, 56, 72, 86].map((height, index) => (
-        <span
-          key={index}
-          className="flex-1 rounded-t-md bg-gradient-to-t from-emerald-500 to-blue-400"
-          style={{ height: `${height}%` }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export function MetricStrip() {
   return (
     <div className="grid gap-3 sm:grid-cols-3">
@@ -201,4 +187,4 @@ export function MetricStrip() {
   );
 }
 
-export { BarChart3 };
+

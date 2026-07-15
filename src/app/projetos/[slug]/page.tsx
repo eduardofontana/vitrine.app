@@ -15,7 +15,7 @@ import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
+import { CATEGORY_LABELS, STATUS_LABELS, ASSET_LABELS } from "@/lib/constants";
 import { firstImage, formatPrice, parseJsonArray } from "@/lib/utils";
 import { sanitizeHttpUrl } from "@/lib/security";
 import { LeadForm } from "@/components/shared/lead-form";
@@ -24,15 +24,6 @@ import { PageShell, StatTile } from "@/components/shared/visual";
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
-
-const includedAssetsLabels: Record<string, string> = {
-  CODIGO_FONTE: "Codigo-fonte",
-  DOMINIO: "Dominio",
-  MARCA: "Marca",
-  DOCUMENTACAO: "Documentacao",
-  CLIENTES: "Clientes",
-  BANCO_DADOS: "Banco de dados",
-};
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
@@ -151,7 +142,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 {includedAssets.map((asset) => (
                   <div key={asset} className="flex items-center gap-2 text-sm text-slate-600">
                     <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
-                    {includedAssetsLabels[asset] || asset}
+                    {ASSET_LABELS[asset] || asset}
                   </div>
                 ))}
               </div>

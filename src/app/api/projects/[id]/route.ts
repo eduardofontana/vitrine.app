@@ -44,29 +44,27 @@ export async function PATCH(
     }
 
     const payload: ProjectInput = parsed.data;
-    const { screenshotUrl, ...projectDataWithSlug } = payload;
-    const { slug, ...projectData } = projectDataWithSlug;
-    void slug;
+    const { screenshotUrl, ...rest } = payload;
     const updated = await prisma.project.update({
       where: { id },
       data: {
-        name: projectData.name,
-        shortDescription: projectData.shortDescription,
-        description: projectData.description,
-        category: projectData.category,
-        projectType: projectData.projectType || null,
-        status: projectData.status,
-        price: projectData.price,
-        acceptsOffers: projectData.acceptsOffers,
-        monthlyRevenue: projectData.monthlyRevenue,
-        monthlyCosts: projectData.monthlyCosts,
-        usersCount: projectData.usersCount,
-        techStack: projectData.techStack,
-        includedAssets: projectData.includedAssets,
-        demoUrl: payload.demoUrl || null,
-        websiteUrl: payload.websiteUrl || null,
-        repositoryInfo: payload.repositoryInfo || null,
-        reasonForSelling: payload.reasonForSelling || null,
+        name: rest.name,
+        shortDescription: rest.shortDescription,
+        description: rest.description,
+        category: rest.category,
+        projectType: rest.projectType || null,
+        status: rest.status,
+        price: rest.price,
+        acceptsOffers: rest.acceptsOffers,
+        monthlyRevenue: rest.monthlyRevenue,
+        monthlyCosts: rest.monthlyCosts,
+        usersCount: rest.usersCount,
+        techStack: rest.techStack,
+        includedAssets: rest.includedAssets,
+        demoUrl: rest.demoUrl || null,
+        websiteUrl: rest.websiteUrl || null,
+        repositoryInfo: rest.repositoryInfo || null,
+        reasonForSelling: rest.reasonForSelling || null,
         screenshots: screenshotUrl ? [screenshotUrl] : parseJsonArray(project.screenshots),
         approvalStatus: "PENDENTE",
       },

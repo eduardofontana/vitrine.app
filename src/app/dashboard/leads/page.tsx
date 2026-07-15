@@ -11,17 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils";
+import { INTEREST_LABELS } from "@/lib/constants";
 import { PageShell, SectionHeader } from "@/components/shared/visual";
 
 interface PageProps {
   searchParams: Promise<{ projectId?: string }>;
 }
-
-const interestLabels: Record<string, string> = {
-  QUERO_COMPRAR: "Quero comprar",
-  QUERO_NEGOCIAR: "Quero negociar",
-  QUERO_SABER_MAIS: "Quero saber mais",
-};
 
 export default async function LeadsPage({ searchParams }: PageProps) {
   const profile = await requireProfile();
@@ -76,7 +71,7 @@ export default async function LeadsPage({ searchParams }: PageProps) {
                     <CardDescription>{lead.buyerEmail}</CardDescription>
                   </div>
                   <Badge variant={interestVariant(lead.interestType)}>
-                    {interestLabels[lead.interestType] || lead.interestType}
+                    {INTEREST_LABELS[lead.interestType] || lead.interestType}
                   </Badge>
                 </div>
               </CardHeader>

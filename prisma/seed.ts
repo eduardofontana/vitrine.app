@@ -45,14 +45,14 @@ async function main() {
     }),
     prisma.profile.upsert({
       where: { email: "admin@example.com" },
-      update: { role: "USER" },
+      update: { role: "ADMIN" },
       create: {
         id: "44444444-4444-4444-8444-444444444444",
         name: "Demo Reviewer",
         email: "admin@example.com",
         username: "demo_reviewer",
         skills: ["Curadoria", "Produto", "Seguranca"],
-        role: "USER",
+        role: "ADMIN",
       },
     }),
   ]);
