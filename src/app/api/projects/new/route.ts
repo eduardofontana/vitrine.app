@@ -3,6 +3,7 @@ import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { projectSchema, type ProjectInput } from "@/lib/validations";
 import { isJsonBodyWithinLimit } from "@/lib/security";
+import { logger } from "@/lib/logger";
 
 export async function POST(request: Request) {
   try {
@@ -73,7 +74,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Create project error:", error);
+    logger.error("Create project error", { error: String(error) });
     return NextResponse.json(
       { error: "Erro ao criar projeto" },
       { status: 500 }

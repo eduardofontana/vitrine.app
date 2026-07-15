@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validations";
 import { isJsonBodyWithinLimit } from "@/lib/security";
+import { logger } from "@/lib/logger";
 
 export async function POST(request: Request) {
   try {
@@ -10,6 +11,11 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+
+    if (body.website) {
+      return NextResponse.json({ id: "bot" }, { status: 201 });
+    }
+
     const parsed = leadSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -45,7 +51,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ id: lead.id }, { status: 201 });
   } catch (error) {
-    console.error("Lead error:", error);
+    logger.error("Lead error", { error: String(error) });
     return NextResponse.json(
       { error: "Erro ao enviar interesse" },
       { status: 500 }

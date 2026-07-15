@@ -4,7 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
+import { CATEGORY_LABELS, CATEGORIA_VALUES, STATUS_LABELS, STATUS_VALUES } from "@/lib/constants";
 import { ProjectCard } from "@/components/shared/project-card";
 import { PageShell, SectionHeader } from "@/components/shared/visual";
 
@@ -32,8 +32,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
   const params = await searchParams;
   const where: Prisma.ProjectWhereInput = { approvalStatus: "APROVADO" };
 
-  if (params.category) where.category = params.category;
-  if (params.status) where.status = params.status;
+  if (params.category && (CATEGORIA_VALUES as string[]).includes(params.category)) where.category = params.category;
+  if (params.status && (STATUS_VALUES as string[]).includes(params.status)) where.status = params.status;
   if (params.search) {
     where.OR = [
       { name: { contains: params.search, mode: "insensitive" } },

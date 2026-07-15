@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/supabase/env";
 import { sanitizeHttpUrl } from "@/lib/security";
+import { logger } from "@/lib/logger";
 
 export function getProfileDefaults(user: User) {
   const metadata = user.user_metadata ?? {};
@@ -61,7 +62,7 @@ export async function getCurrentUser() {
     return user;
   } catch (error) {
     unstable_rethrow(error);
-    console.error("Supabase auth is unavailable:", error);
+    logger.error("Supabase auth is unavailable", { error: String(error) });
     return null;
   }
 }

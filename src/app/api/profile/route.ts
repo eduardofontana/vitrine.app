@@ -3,6 +3,7 @@ import type { Prisma } from "@prisma/client";
 import { getCurrentProfile } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isJsonBodyWithinLimit } from "@/lib/security";
+import { logger } from "@/lib/logger";
 import { profileSchema, type ProfileInput } from "@/lib/validations";
 
 export async function PATCH(request: Request) {
@@ -59,7 +60,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("Update profile error:", error);
+    logger.error("Update profile error", { error: String(error) });
     return NextResponse.json(
       { error: "Erro ao atualizar perfil" },
       { status: 500 }

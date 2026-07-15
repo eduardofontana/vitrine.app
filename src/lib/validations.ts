@@ -22,7 +22,13 @@ export const registerSchema = z.object({
     .min(3, "Username deve ter no minimo 3 caracteres")
     .max(32, "Username deve ter no maximo 32 caracteres")
     .regex(/^[a-z0-9_]+$/, "Use apenas letras minusculas, numeros e _"),
-  password: z.string().min(8, "Minimo de 8 caracteres").max(128, "Senha muito longa"),
+  password: z
+    .string()
+    .min(8, "Minimo de 8 caracteres")
+    .max(128, "Senha muito longa")
+    .regex(/[A-Z]/, "Pelo menos uma letra maiuscula")
+    .regex(/[a-z]/, "Pelo menos uma letra minuscula")
+    .regex(/[0-9]/, "Pelo menos um numero"),
 });
 
 const optionalUrl = z

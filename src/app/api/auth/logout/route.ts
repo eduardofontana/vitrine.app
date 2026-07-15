@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getRequestOrigin } from "@/lib/security";
 import { createClient } from "@/lib/supabase/server";
 
 function clearSupabaseCookies(request: NextRequest, response: NextResponse) {
@@ -9,18 +8,12 @@ function clearSupabaseCookies(request: NextRequest, response: NextResponse) {
       response.cookies.set(cookie.name, "", {
         expires: new Date(0),
         path: "/",
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
       });
     }
   });
-}
-
-export async function GET(request: NextRequest) {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-
-  const response = NextResponse.redirect(new URL("/", getRequestOrigin(request)));
-  clearSupabaseCookies(request, response);
-  return response;
 }
 
 export async function POST(request: NextRequest) {

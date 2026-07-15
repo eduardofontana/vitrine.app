@@ -2,7 +2,7 @@ export function authErrorMessage(message?: string) {
   const normalized = message?.toLowerCase() || "";
 
   if (normalized.includes("email not confirmed")) {
-    return "Confirme seu email antes de entrar. Verifique sua caixa de entrada.";
+    return "Se uma conta com este email existir, voce recebera as instrucoes de confirmacao.";
   }
 
   if (normalized.includes("invalid login credentials")) {
@@ -10,15 +10,15 @@ export function authErrorMessage(message?: string) {
   }
 
   if (normalized.includes("user already registered") || normalized.includes("already registered")) {
-    return "Este email ja esta cadastrado. Tente entrar ou recupere o acesso.";
+    return "Se uma conta com este email existir, voce recebera as instrucoes de acesso.";
   }
 
   if (normalized.includes("password")) {
-    return "A senha precisa atender aos requisitos do Supabase. Use pelo menos 8 caracteres.";
+    return "A senha precisa atender aos requisitos. Use pelo menos 8 caracteres, incluindo maiuscula, minuscula e numero.";
   }
 
   if (normalized.includes("provider is not enabled")) {
-    return "Este login social ainda nao esta habilitado no Supabase.";
+    return "Este login social ainda nao esta habilitado.";
   }
 
   return "Nao foi possivel concluir a autenticacao. Tente novamente.";

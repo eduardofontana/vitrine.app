@@ -32,6 +32,9 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
     setError("");
 
     const form = new FormData(e.currentTarget);
+
+    if (form.get("website")) return;
+
     const data = {
       projectId,
       buyerName: form.get("buyerName") as string,
@@ -85,6 +88,10 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="premium-panel space-y-4 p-6">
+      <div className="absolute -left-[9999px] opacity-0" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="space-y-2">
         <Label htmlFor="buyerName">Seu nome</Label>
         <Input id="buyerName" name="buyerName" required placeholder="Seu nome completo" autoComplete="name" />

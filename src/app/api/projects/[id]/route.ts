@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { projectSchema, type ProjectInput } from "@/lib/validations";
 import { parseJsonArray } from "@/lib/utils";
 import { isJsonBodyWithinLimit } from "@/lib/security";
+import { logger } from "@/lib/logger";
 
 export async function PATCH(
   request: Request,
@@ -23,6 +24,7 @@ export async function PATCH(
     }
 
     if (project.ownerId !== profile.id) {
+      logger.auth.unauthorized(profile.id, "PATCH /api/projects/[id]", "unknown");
       return NextResponse.json({ error: "Nao autorizado" }, { status: 403 });
     }
 
@@ -32,8 +34,8 @@ export async function PATCH(
 
     const body = await request.json();
     const parsed = projectSchema.safeParse({
-      slug: project.slug,
       ...body,
+      slug: project.slug,
     });
 
     if (!parsed.success) {
@@ -76,7 +78,7 @@ export async function PATCH(
       approvalStatus: updated.approvalStatus,
     });
   } catch (error) {
-    console.error("Update project error:", error);
+    logger.error("Update project error", { error: String(error) });
     return NextResponse.json(
       { error: "Erro ao atualizar projeto" },
       { status: 500 }

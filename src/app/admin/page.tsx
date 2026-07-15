@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { APPROVAL_STATUS, CATEGORY_LABELS } from "@/lib/constants";
 import { PageShell, StatTile } from "@/components/shared/visual";
+import { generateCsrfToken } from "@/lib/csrf";
 
 function getStatusVariant(status: string) {
   switch (status) {
@@ -21,6 +22,7 @@ function getStatusVariant(status: string) {
 
 export default async function AdminPage() {
   await requireAdminProfile();
+  const csrfToken = await generateCsrfToken();
 
   const [total, pendentes, aprovados, rejeitados, leads, pendingProjects] = await Promise.all([
     prisma.project.count(),
@@ -69,6 +71,7 @@ export default async function AdminPage() {
             Projetos pendentes
           </h2>
           <form action="/api/admin/approve-all" method="POST">
+            <input type="hidden" name="csrf_token" value={csrfToken} />
             <Button type="submit" size="sm" variant="outline">
               Aprovar Todos
             </Button>
@@ -101,11 +104,13 @@ export default async function AdminPage() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <form action={`/api/admin/approve/${project.id}`} method="POST">
+                    <input type="hidden" name="csrf_token" value={csrfToken} />
                     <Button type="submit" size="sm">
                       Aprovar
                     </Button>
                   </form>
                   <form action={`/api/admin/reject/${project.id}`} method="POST">
+                    <input type="hidden" name="csrf_token" value={csrfToken} />
                     <Button type="submit" size="sm" variant="destructive">
                       Rejeitar
                     </Button>
