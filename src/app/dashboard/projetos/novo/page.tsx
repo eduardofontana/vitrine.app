@@ -128,7 +128,7 @@ export default function NewProjectPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="screenshotUrl">URL da imagem de preview</Label>
-                <Input id="screenshotUrl" name="screenshotUrl" placeholder="https://.../screenshot.png" />
+                <Input id="screenshotUrl" name="screenshotUrl" placeholder="https://…/screenshot.png" type="url" />
                 <p className="text-xs text-slate-500">Use uma imagem do produto para deixar o card mais confiavel.</p>
               </div>
 
@@ -139,14 +139,14 @@ export default function NewProjectPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="description">Descricao completa *</Label>
-                <Textarea id="description" name="description" required placeholder="Descreva o projeto em detalhes..." rows={6} />
+                <Textarea id="description" name="description" required placeholder="Descreva o projeto em detalhes…" rows={6} />
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="category">Categoria *</Label>
                   <Select name="category" required>
-                    <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                    <SelectTrigger id="category" aria-label="Categoria"><SelectValue placeholder="Selecione" /></SelectTrigger>
                     <SelectContent>
                       {CATEGORIAS.map((cat) => <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>)}
                     </SelectContent>
@@ -162,7 +162,7 @@ export default function NewProjectPage() {
                 <div className="space-y-2">
                   <Label htmlFor="status">Status do projeto *</Label>
                   <Select name="status" required>
-                    <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                    <SelectTrigger id="status" aria-label="Status do projeto"><SelectValue placeholder="Selecione" /></SelectTrigger>
                     <SelectContent>
                       {STATUS_PROJETO.map((st) => <SelectItem key={st.value} value={st.value}>{st.label}</SelectItem>)}
                     </SelectContent>
@@ -197,11 +197,11 @@ export default function NewProjectPage() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="demoUrl">URL de demonstracao</Label>
-                  <Input id="demoUrl" name="demoUrl" placeholder="https://..." />
+                  <Input id="demoUrl" name="demoUrl" placeholder="https://…" type="url" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="websiteUrl">URL do site</Label>
-                  <Input id="websiteUrl" name="websiteUrl" placeholder="https://..." />
+                  <Input id="websiteUrl" name="websiteUrl" placeholder="https://…" type="url" />
                 </div>
               </div>
 
@@ -235,7 +235,7 @@ export default function NewProjectPage() {
               {error && <p className="text-sm text-red-600">{error}</p>}
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Cadastrando..." : "Cadastrar projeto"}
+                {loading ? "Cadastrando…" : "Cadastrar projeto"}
               </Button>
             </form>
           </CardContent>

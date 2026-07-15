@@ -53,11 +53,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <div className="aspect-video overflow-hidden rounded-lg bg-slate-100">
               {image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={image} alt={`Preview de ${project.name}`} className="h-full w-full object-cover" />
+                <img src={image} alt={`Preview de ${project.name}`} width={1200} height={675} className="h-full w-full object-cover" />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_18%_18%,rgba(16,185,129,0.28),transparent_34%),radial-gradient(circle_at_82%_8%,rgba(59,130,246,0.18),transparent_30%),linear-gradient(135deg,#f8fafc,#e2e8f0)]">
                   <div className="rounded-xl border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-900/10">
-                    <Monitor className="h-16 w-16 text-slate-500" />
+                    <Monitor className="h-16 w-16 text-slate-500" aria-hidden="true" />
                   </div>
                 </div>
               )}
@@ -141,7 +141,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {includedAssets.map((asset) => (
                   <div key={asset} className="flex items-center gap-2 text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
+                    <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                     {ASSET_LABELS[asset] || asset}
                   </div>
                 ))}
@@ -232,7 +232,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
             <div className="rounded-lg border border-emerald-200 bg-emerald-50/85 p-5 shadow-sm shadow-emerald-950/5">
               <h3 className="flex items-center gap-2 font-bold text-emerald-950">
-                <ShoppingCart className="h-4 w-4" />
+                <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                 Tem interesse?
               </h3>
               <p className="mt-2 text-sm leading-6 text-emerald-800">
@@ -244,7 +244,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
             <div className="premium-panel p-4">
               <div className="flex items-start gap-2">
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" aria-hidden="true" />
                 <p className="text-xs leading-5 text-slate-500">
                   O Vitrine App conecta compradores e vendedores. Due diligence,
                   pagamento e transferencia devem ser combinados entre as partes.

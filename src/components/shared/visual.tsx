@@ -39,7 +39,7 @@ export function SectionHeader({
       <div>
         {eyebrow && (
           <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-white/75 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-700 shadow-sm shadow-emerald-950/5 backdrop-blur">
-            {Icon && <Icon className="h-3.5 w-3.5" />}
+            {Icon && <Icon className="h-3.5 w-3.5" aria-hidden="true" />}
             {eyebrow}
           </p>
         )}
@@ -82,11 +82,11 @@ export function StatTile({
         <p className="text-sm font-semibold text-slate-500">{label}</p>
         {Icon && (
           <span className={cn("flex h-9 w-9 items-center justify-center rounded-lg ring-1", toneClass)}>
-            <Icon className="h-4 w-4" />
+            <Icon className="h-4 w-4" aria-hidden="true" />
           </span>
         )}
       </div>
-      <p className="mt-3 font-heading text-3xl font-bold tracking-tight text-slate-950">
+      <p className="mt-3 font-heading text-3xl font-bold tracking-tight text-slate-950 tabular-nums">
         {value}
       </p>
     </div>
@@ -127,7 +127,7 @@ export function MarketplaceMockup({ className }: { className?: string }) {
             </div>
             <div className="rounded-lg border border-white/10 bg-white/10 p-4">
               <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
-                <BadgeCheck className="h-4 w-4" />
+                <BadgeCheck className="h-4 w-4" aria-hidden="true" />
                 Receita, demo e stack em destaque
               </div>
               <div className="mt-3 h-2 rounded-full bg-white/10">
@@ -158,10 +158,10 @@ export function MarketplaceMockup({ className }: { className?: string }) {
             ))}
             <div className="flex items-center justify-between rounded-lg border border-emerald-300/30 bg-emerald-400/15 px-3 py-2 text-xs font-semibold text-emerald-100">
               <span className="inline-flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5" />
+                <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
                 Curadoria ativa
               </span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
           </div>
         </div>

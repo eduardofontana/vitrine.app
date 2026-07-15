@@ -111,7 +111,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="screenshotUrl">URL da imagem de preview</Label>
-                  <Input id="screenshotUrl" name="screenshotUrl" defaultValue={parseJsonArray(project.screenshots)[0] || ""} placeholder="https://.../screenshot.png" />
+                  <Input id="screenshotUrl" name="screenshotUrl" defaultValue={parseJsonArray(project.screenshots)[0] || ""} placeholder="https://…/screenshot.png" type="url" />
                 </div>
               </div>
 
@@ -129,7 +129,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
                 <div className="space-y-2">
                   <Label htmlFor="category">Categoria</Label>
                   <Select name="category" defaultValue={project.category}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger id="category" aria-label="Categoria"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {CATEGORIAS.map((cat) => <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>)}
                     </SelectContent>
@@ -145,7 +145,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
                 <div className="space-y-2">
                   <Label htmlFor="status">Status do projeto</Label>
                   <Select name="status" defaultValue={project.status}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger id="status" aria-label="Status do projeto"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {STATUS_PROJETO.map((st) => <SelectItem key={st.value} value={st.value}>{st.label}</SelectItem>)}
                     </SelectContent>
@@ -180,11 +180,11 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="demoUrl">URL de demonstracao</Label>
-                  <Input id="demoUrl" name="demoUrl" defaultValue={project.demoUrl || ""} placeholder="https://..." />
+                  <Input id="demoUrl" name="demoUrl" defaultValue={project.demoUrl || ""} placeholder="https://…" type="url" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="websiteUrl">URL do site</Label>
-                  <Input id="websiteUrl" name="websiteUrl" defaultValue={project.websiteUrl || ""} placeholder="https://..." />
+                  <Input id="websiteUrl" name="websiteUrl" defaultValue={project.websiteUrl || ""} placeholder="https://…" type="url" />
                 </div>
               </div>
 
@@ -229,7 +229,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
               {error && <p className="text-sm text-red-600">{error}</p>}
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Salvando..." : "Salvar alteracoes"}
+                {loading ? "Salvando…" : "Salvar alteracoes"}
               </Button>
             </form>
           </CardContent>

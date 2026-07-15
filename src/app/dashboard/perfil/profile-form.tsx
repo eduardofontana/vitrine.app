@@ -100,7 +100,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
                 type="url"
                 defaultValue={profile.avatarUrl || ""}
                 onChange={(event) => setAvatarUrl(event.target.value)}
-                placeholder="https://..."
+                placeholder="https://…"
               />
             </div>
           </div>

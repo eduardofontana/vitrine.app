@@ -22,26 +22,27 @@ function getStatusVariant(status: string) {
 export default async function AdminPage() {
   await requireAdminProfile();
 
-  const stats = {
-    total: await prisma.project.count(),
-    pendentes: await prisma.project.count({ where: { approvalStatus: "PENDENTE" } }),
-    aprovados: await prisma.project.count({ where: { approvalStatus: "APROVADO" } }),
-    rejeitados: await prisma.project.count({ where: { approvalStatus: "REJEITADO" } }),
-    leads: await prisma.lead.count(),
-  };
+  const [total, pendentes, aprovados, rejeitados, leads, pendingProjects] = await Promise.all([
+    prisma.project.count(),
+    prisma.project.count({ where: { approvalStatus: "PENDENTE" } }),
+    prisma.project.count({ where: { approvalStatus: "APROVADO" } }),
+    prisma.project.count({ where: { approvalStatus: "REJEITADO" } }),
+    prisma.lead.count(),
+    prisma.project.findMany({
+      where: { approvalStatus: "PENDENTE" },
+      include: { owner: { select: { name: true, username: true } } },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
-  const pendingProjects = await prisma.project.findMany({
-    where: { approvalStatus: "PENDENTE" },
-    include: { owner: { select: { name: true, username: true } } },
-    orderBy: { createdAt: "desc" },
-  });
+  const stats = { total, pendentes, aprovados, rejeitados, leads };
 
   return (
     <PageShell>
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div>
         <p className="flex items-center gap-2 text-sm font-semibold uppercase text-emerald-700">
-          <Shield className="h-4 w-4" />
+          <Shield className="h-4 w-4" aria-hidden="true" />
           Admin
         </p>
         <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight text-slate-950">
@@ -69,7 +70,7 @@ export default async function AdminPage() {
           </h2>
           <form action="/api/admin/approve-all" method="POST">
             <Button type="submit" size="sm" variant="outline">
-              Aprovar todos
+              Aprovar Todos
             </Button>
           </form>
         </div>

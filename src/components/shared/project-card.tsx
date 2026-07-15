@@ -20,13 +20,16 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
 
   return (
     <Link href={`/projetos/${project.slug}`} className={cn("group block h-full", className)}>
-      <article className="premium-card flex h-full flex-col overflow-hidden">
+      <article className="premium-card flex h-full flex-col overflow-hidden animate-fade-in-up">
         <div className="relative aspect-video overflow-hidden bg-slate-100">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={image}
               alt={`Preview de ${project.name}`}
+              width={640}
+              height={360}
+              loading="lazy"
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (

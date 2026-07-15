@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-white shadow-lg shadow-slate-950/15">
-                <Store className="h-4 w-4" />
+                <Store className="h-4 w-4" aria-hidden="true" />
               </span>
               <span className="font-heading text-lg font-bold text-slate-950">
                 Vitrine App

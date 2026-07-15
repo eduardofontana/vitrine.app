@@ -179,21 +179,21 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome completo</Label>
-                <Input id="name" name="name" required placeholder="Seu nome" />
+                <Input id="name" name="name" required placeholder="Seu nome" autoComplete="name" />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" required placeholder="seu@email.com" />
+                  <Input id="email" name="email" type="email" required placeholder="seu@email.com" autoComplete="email" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="username">Username</Label>
-                  <Input id="username" name="username" required placeholder="seuusername" />
+                  <Input id="username" name="username" required placeholder="seuusername" autoComplete="username" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
-                <Input id="password" name="password" type="password" required minLength={8} placeholder="Minimo 8 caracteres" />
+                <Input id="password" name="password" type="password" required minLength={8} placeholder="Minimo 8 caracteres" autoComplete="new-password" />
               </div>
               {error && <p className="text-sm font-medium text-red-600">{error}</p>}
               {success && <p className="text-sm font-medium text-emerald-700">{success}</p>}

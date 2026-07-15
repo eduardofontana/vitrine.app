@@ -41,7 +41,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:py-24">
           <div className="flex flex-col justify-center">
             <Badge variant="secondary" className="w-fit gap-1 bg-white/80 text-emerald-700">
-              <Sparkles className="h-3.5 w-3.5" />
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               Marketplace brasileiro para produtos digitais
             </Badge>
             <h1 className="mt-6 max-w-4xl font-heading text-5xl font-bold leading-tight tracking-tight text-slate-950 sm:text-6xl">
@@ -78,11 +78,10 @@ export default async function HomePage() {
       </section>
 
       <section className="py-12">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-          <StatTile label="Projetos listados" value="7+" icon={BriefcaseBusiness} tone="emerald" />
-          <StatTile label="Devs cadastrados" value="4+" icon={Rocket} tone="blue" />
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
           <StatTile label="Curadoria manual" value="100%" icon={ShieldCheck} tone="emerald" />
-          <StatTile label="Taxa inicial" value="R$ 0" icon={LineChart} tone="slate" />
+          <StatTile label="Contato direto" value="Sem intermediarios" icon={BriefcaseBusiness} tone="blue" />
+          <StatTile label="Para comecear" value="Gratuito" icon={LineChart} tone="slate" />
         </div>
       </section>
 
@@ -125,8 +124,8 @@ export default async function HomePage() {
                 desc: "Compare oportunidades com preco, stack, receita e sinais de confianca antes de conversar.",
               },
               {
-                title: "Para a plataforma",
-                desc: "Supabase Auth e Postgres deixam o MVP pronto para crescer sem carregar infraestrutura cedo demais.",
+                title: "Para quem compra",
+                desc: "Acesse metricas reais, demo e stack antes de entrar em contato. Sem surpresas, sem middleman.",
               },
             ].map((item) => (
               <div key={item.title} className="premium-card p-6">

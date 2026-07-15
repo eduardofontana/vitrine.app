@@ -14,7 +14,7 @@ export default async function ProfileSettingsPage() {
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <p className="flex items-center gap-2 text-sm font-semibold uppercase text-emerald-700">
-            <UserRound className="h-4 w-4" />
+            <UserRound className="h-4 w-4" aria-hidden="true" />
             Perfil
           </p>
           <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight text-slate-950">
@@ -27,7 +27,7 @@ export default async function ProfileSettingsPage() {
         <Link href={`/devs/${profile.username}`}>
           <Button variant="outline" className="gap-2">
             <Eye className="h-4 w-4" />
-            Ver publico
+            Ver Publico
           </Button>
         </Link>
       </div>

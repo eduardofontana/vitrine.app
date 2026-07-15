@@ -58,7 +58,7 @@ export default async function LeadsPage({ searchParams }: PageProps) {
       <div className="mt-8 space-y-4">
         {leads.length === 0 ? (
           <div className="premium-panel border-dashed border-slate-300 p-12 text-center">
-            <MessageSquare className="mx-auto h-12 w-12 text-slate-300" />
+            <MessageSquare className="mx-auto h-12 w-12 text-slate-300" aria-hidden="true" />
             <p className="mt-4 text-slate-500">Nenhum lead recebido ainda.</p>
           </div>
         ) : (

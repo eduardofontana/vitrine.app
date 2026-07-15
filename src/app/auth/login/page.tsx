@@ -155,11 +155,11 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" required placeholder="seu@email.com" />
+                <Input id="email" name="email" type="email" required placeholder="seu@email.com" autoComplete="email" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
-                <Input id="password" name="password" type="password" required placeholder="Sua senha" />
+                <Input id="password" name="password" type="password" required placeholder="Sua senha" autoComplete="current-password" />
               </div>
               {error && <p className="text-sm font-medium text-red-600">{error}</p>}
               <Button type="submit" className="w-full gap-2" disabled={!!loading}>

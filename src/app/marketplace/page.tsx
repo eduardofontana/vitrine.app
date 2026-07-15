@@ -67,12 +67,14 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
         <form className="mt-6 flex max-w-xl gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
             <Input
               name="search"
-              placeholder="Buscar por nome ou descricao..."
+              placeholder="Buscar por nome ou descricao…"
               defaultValue={params.search}
               className="pl-9"
+              type="search"
+              aria-label="Buscar projetos"
             />
           </div>
           <Button type="submit" variant="outline">
@@ -85,7 +87,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
         <aside className="w-full shrink-0 lg:w-72">
           <div className="premium-panel sticky top-24 p-5">
             <h2 className="flex items-center gap-2 text-sm font-bold text-slate-950">
-              <Filter className="h-4 w-4" />
+              <Filter className="h-4 w-4" aria-hidden="true" />
               Filtros
             </h2>
 
@@ -176,7 +178,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
               </p>
               <Link href="/marketplace">
                 <Button variant="outline" className="mt-5">
-                  Limpar filtros
+                  Limpar Filtros
                 </Button>
               </Link>
             </div>

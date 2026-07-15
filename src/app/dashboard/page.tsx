@@ -26,10 +26,18 @@ export default async function DashboardPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  const totalLeads = projects.reduce((acc, p) => acc + p._count.leads, 0);
-  const totalViews = projects.reduce((acc, p) => acc + p.viewCount, 0);
-  const totalRevenue = projects.reduce((acc, p) => acc + Number(p.monthlyRevenue), 0);
-  const pendingProjects = projects.filter((project) => project.approvalStatus === "PENDENTE").length;
+  let totalLeads = 0;
+  let totalViews = 0;
+  let totalRevenue = 0;
+  let pendingCount = 0;
+
+  for (const p of projects) {
+    totalLeads += p._count.leads;
+    totalViews += p.viewCount;
+    totalRevenue += Number(p.monthlyRevenue);
+    if (p.approvalStatus === "PENDENTE") pendingCount++;
+  }
+  const pendingProjects = pendingCount;
 
   const statusBadgeVariant = (status: string) => {
     switch (status) {
@@ -57,13 +65,13 @@ export default async function DashboardPage() {
               <Link href="/dashboard/perfil">
                 <Button variant="outline" className="gap-2">
                   <UserRound className="h-4 w-4" />
-                  Editar perfil
+                  Editar Perfil
                 </Button>
               </Link>
               <Link href="/dashboard/projetos/novo">
                 <Button className="gap-2">
                   <Plus className="h-4 w-4" />
-                  Novo projeto
+                  Novo Projeto
                 </Button>
               </Link>
             </>
@@ -115,7 +123,7 @@ export default async function DashboardPage() {
               <Link href="/dashboard/leads">
                 <Button variant="outline" className="gap-2">
                   <TrendingUp className="h-4 w-4" />
-                  Ver leads
+                  Ver Leads
                 </Button>
               </Link>
             </div>

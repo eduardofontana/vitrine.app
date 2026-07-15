@@ -87,7 +87,7 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
     <form onSubmit={handleSubmit} className="premium-panel space-y-4 p-6">
       <div className="space-y-2">
         <Label htmlFor="buyerName">Seu nome</Label>
-        <Input id="buyerName" name="buyerName" required placeholder="Seu nome completo" />
+        <Input id="buyerName" name="buyerName" required placeholder="Seu nome completo" autoComplete="name" />
       </div>
       <div className="space-y-2">
         <Label htmlFor="buyerEmail">Seu email</Label>
@@ -97,12 +97,13 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
           type="email"
           required
           placeholder="seu@email.com"
+          autoComplete="email"
         />
       </div>
       <div className="space-y-2">
         <Label htmlFor="interestType">Tipo de interesse</Label>
         <Select name="interestType" required>
-          <SelectTrigger>
+          <SelectTrigger id="interestType" aria-label="Tipo de interesse">
             <SelectValue placeholder="Selecione" />
           </SelectTrigger>
           <SelectContent>
@@ -130,14 +131,14 @@ export function LeadForm({ projectId, projectName }: LeadFormProps) {
           id="message"
           name="message"
           required
-          placeholder="Conte sobre seu interesse no projeto..."
+          placeholder="Conte sobre seu interesse no projeto…"
           rows={4}
         />
       </div>
       {error && <p className="text-sm font-medium text-red-600">{error}</p>}
       <Button type="submit" className="w-full gap-2" disabled={loading}>
-        <Send className="h-4 w-4" />
-        {loading ? "Enviando..." : "Tenho interesse"}
+        <Send className="h-4 w-4" aria-hidden="true" />
+        {loading ? "Enviando…" : "Tenho interesse"}
       </Button>
     </form>
   );

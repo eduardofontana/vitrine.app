@@ -79,7 +79,7 @@ export function AccountMenu({ profile, avatarUrl }: AccountMenuProps) {
           </MenuLink>
           <DropdownMenu.Separator className="my-1 h-px bg-slate-100" />
           <DropdownMenu.Item
-            className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-red-700 outline-none transition hover:bg-red-50 focus:bg-red-50"
+            className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-red-700 outline-none transition hover:bg-red-50 focus:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1"
             disabled={loading}
             onSelect={(event) => {
               event.preventDefault();
@@ -110,7 +110,7 @@ function MenuLink({
         href={href}
         className={cn(
           "flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition",
-          "hover:bg-slate-50 focus:bg-slate-50 focus:text-slate-950"
+          "hover:bg-slate-50 focus:bg-slate-50 focus:text-slate-950 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1"
         )}
       >
         <Icon className="h-4 w-4 text-slate-400" />

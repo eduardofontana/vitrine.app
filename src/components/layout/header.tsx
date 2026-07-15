@@ -14,7 +14,7 @@ export async function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-white shadow-lg shadow-slate-950/15">
-            <Store className="h-4 w-4" />
+            <Store className="h-4 w-4" aria-hidden="true" />
           </span>
           <span className="font-heading text-lg font-bold text-slate-950">
             Vitrine App
